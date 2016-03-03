@@ -1,0 +1,21 @@
+<ion-view view-title="Test">
+  <ion-content class="padding">
+    <h1 class="title">Todo List</h1>
+    <div class="item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="New Todo" ng-model="input.name">
+      </label>
+      <button class="button button-balanced button-small" ng-click="addTodo()">
+        Add Todo
+      </button>
+    </div>
+    <ion-list can-swipe="true">
+      <ion-item ng-repeat="item in todos">
+        {{item.name}}
+        <ion-option-button class="button-assertive" ng-click="deleteTodo(item.id)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
