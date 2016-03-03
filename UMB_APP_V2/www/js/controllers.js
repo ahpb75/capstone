@@ -1,37 +1,20 @@
-angular.module('starter.controllers', [])
+angular.module('umb-hsa.controllers', [])
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state){
-
-  function getObjects(obj, key, val) {
-            var objects = [];
-            for (var i in obj) {
-                if (!obj.hasOwnProperty(i)) continue;
-                if (typeof obj[i] == 'object') {
-                    objects = objects.concat(getObjects(obj[i], key, val));
-                } else if (i == key && obj[key] == val) {
-                    objects.push(obj);
-                }
-            }
-            return objects;
-            }
-
+.controller('LoginCtrl', function($scope, BackandService, $ionicPopup, $state, HelpFunction,User){
 
   $scope.data = {};
-
   $scope.login = function(){
-    LoginService.getUsers().then(function(result){
-
-      var a = getObjects(result,'username',$scope.data.username);
-
-      if(a[0].password == $scope.data.password)
-      {
-        $state.go('tab.dash');
+    BackandService.getUsers().then(function(result){
+      var a = HelpFunction.searchJson(result,'username',$scope.data.username);
+      if(a.length != 0){
+        if(a[0].password == $scope.data.password)
+        {
+          User.setUser(a[0]);
+          $state.go('tab.dash');
+        }
       }
       else{
-        var alertPopup = $ionicPopup.alert({
-        title: 'Login Fail!',
-        template: 'Username/Password wrong!'
-      });
+        var alertPopup = $ionicPopup.alert({title: 'Login Fail!', template: 'Username/Password wrong!'});
       }
     })
   }
@@ -41,124 +24,37 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('SignupCtrl',function($scope,$state,SignupService,$ionicPopup){
-
-  function getObjects(obj, key, val) {
-            var objects = [];
-            for (var i in obj) {
-                if (!obj.hasOwnProperty(i)) continue;
-                if (typeof obj[i] == 'object') {
-                    objects = objects.concat(getObjects(obj[i], key, val));
-                } else if (i == key && obj[key] == val) {
-                    objects.push(obj);
-                }
-            }
-            return objects;
-            }
+.controller('SignupCtrl',function($scope,$state,BackandService,$ionicPopup,HelpFunction){
 
   $scope.input = {};
   $scope.signup = function(){
     if(!$scope.input.username)
     {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Signup Fail!',
-        template: 'No username!'
-      });
+      var alertPopup = $ionicPopup.alert({title: 'Signup Fail!', template: 'No username!'});
     }
     else if(!$scope.input.password){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Signup Fail!',
-        template: 'No password!'
-      });
+      var alertPopup = $ionicPopup.alert({title: 'Signup Fail!', template: 'No password!'});
     }
     else{
-  SignupService.getUsers().then(function(result){
-
-    var a = getObjects(result,'username',$scope.input.username);
-    
-    console.dir(a);
-
-    if (a.length == 0){
-      SignupService.addUser($scope.input);
-      var alertPopup = $ionicPopup.alert({
-        title: 'Welcome!',
-        template: 'Successful signup!'
-      });
-      $state.go('login');
+      BackandService.getUsers().then(function(result){
+        var a = HelpFunction.searchJson(result,'username',$scope.input.username);
+        if (a.length == 0){
+          BackandService.addUser($scope.input);
+          var alertPopup = $ionicPopup.alert({title: 'Welcome!', template: 'Successful signup!'});
+          $state.go('login');
+        }
+        else{
+          var alertPopup = $ionicPopup.alert({title: 'Signup Fail!', template: 'Username already exists'});
+        }
+      })
     }
-    else{
-      var alertPopup = $ionicPopup.alert({
-        title: 'Signup Fail!',
-        template: 'Username already exists'
-      });
-    }
-  })
-    // SignupService.addUser($scope.input);
-
   }
-}
 })
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope,User) {
 })
 
-
-.controller('TestCtrl', function($scope, TodoService) {
-  $scope.todos = [];
-  $scope.input = {};
- 
-  function getAllTodos() {
-    TodoService.getTodos()
-    .then(function (result) {
-      // console.dir(result);
-      $scope.todos = result.data.data;
-    });
-  }
-
-  $scope.addTodo = function() {
-    // $scope.newClaim = '{"name":$scope.input, "time":Date(), "completed":false}';
-    $scope.currDate = new Date();
-    $scope.newClaim = {"name":$scope.input.name,"completed":false,"time":$scope.currDate.toJSON()};
-    TodoService.addTodo($scope.newClaim)
-    .then(function(result) {
-      $scope.input = {};
-      // Reload our todos, not super cool
-      getAllTodos();
-    });
-  }
- 
-  $scope.deleteTodo = function(id) {
-    TodoService.deleteTodo(id)
-    .then(function (result) {
-      // Reload our todos, not super cool
-      getAllTodos();
-    });
-  }
- 
-  getAllTodos();
-})
-
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('AccountCtrl', function($scope,$state,TodoService) {
+.controller('ClaimCtrl', function($scope,$state,BackandService) {
   $scope.viewClaim = function(){
     $state.go('tab.claimDetails');
   };
@@ -167,4 +63,42 @@ angular.module('starter.controllers', [])
     $state.go('tab.newClaim');
   };
 
+})
+
+.controller('ClaimDetailCtrl', function($scope, BackandService,User,$state,$ionicPopup) {
+  $scope.claims = [];
+  $scope.input = {};
+ 
+  function getAllClaims() {
+    BackandService.getClaims()
+    .then(function (result) {
+      for( i = 0; i < result.data.data.length; i++){
+        if((result.data.data)[i].created_by == User.getUser().username)
+        $scope.claims.push((result.data.data)[i]);
+      }
+    });
+  }
+
+  $scope.addClaim = function() {
+    $scope.currDate = new Date();
+    $scope.newClaim = {"name":$scope.input.name,"created_by":User.getUser().username,"completed":false,"time":$scope.currDate.toJSON()};
+    console.dir($scope.newClaim);
+    BackandService.addClaim($scope.newClaim)
+    .then(function(result) {
+      $scope.input = {};
+      getAllClaims();
+    });
+    var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
+    $state.go('tab.claim');
+
+  }
+ 
+  $scope.deleteClaim = function(id) {
+    BackandService.deleteClaim(id)
+    .then(function (result) {
+      getAllClaims();
+    });
+  }
+ 
+  getAllClaims();
 });

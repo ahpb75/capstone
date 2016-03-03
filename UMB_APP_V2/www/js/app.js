@@ -1,11 +1,4 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'starter.services','ngCordova','backand'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngCordova','backand'])
 
 .run(function($ionicPlatform) {
 
@@ -50,13 +43,9 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
 .config(function($stateProvider, $urlRouterProvider,BackandProvider) {
 
   BackandProvider.setAppName('todo208240');
-  BackandProvider.setSignUpToken('14e14c05-daee-4e2c-934d-471380117e89');
+  // BackandProvider.setSignUpToken('14e14c05-daee-4e2c-934d-471380117e89');
   BackandProvider.setAnonymousToken('c23325f4-7213-48e9-961b-ee4dda31a7a9');
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
 
   .state('login', {
@@ -90,32 +79,22 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.usage', {
+      url: '/usage',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-usage': {
+          templateUrl: 'templates/tab-usage.html',
+          controller: 'UsageCtrl'
         }
       }
     })
 
-  .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.claim', {
+    url: '/claim',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-claim': {
+        templateUrl: 'templates/tab-claim.html',
+        controller: 'ClaimCtrl'
       }
     }
   })
@@ -123,9 +102,9 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   .state('tab.newClaim',{
     url:'/newClaim',
     views:{
-      'tab-account':{
+      'tab-claim':{
         templateUrl:'templates/newClaim.html',
-        controller: 'TestCtrl'
+        controller: 'ClaimDetailCtrl'
       }
     }
   })
@@ -133,18 +112,12 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   .state('tab.claimDetails',{
     url: '/claimDetails',
     views:{
-      'tab-account':{
+      'tab-claim':{
         templateUrl: 'templates/claimDetails.html',
-        controller: 'TestCtrl'
+        controller: 'ClaimDetailCtrl'
     }
   }
   })
-
-  .state('test',{
-    url: '/test',
-    templateUrl: 'templates/tab-test.html',
-    controller: 'TestCtrl'
-  });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
