@@ -1,0 +1,37 @@
+﻿<ion-view class="auth-view" cache-view="false">
+    <ion-nav-title>
+        <span>New Claim</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="list">
+            <label class="item item-input ">
+                <span class="input-label">First Name</span>
+                <input type="text" placeholder="John">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Last Name</span>
+                <input type="text" placeholder="Smith">
+            </label>
+            <label class="item item-input l">
+                <span class="input-label">Date of Service</span>
+                <input type="text" placeholder="01/11/1990">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Identify</span>
+                <input type="text" placeholder="Self, Child, Spouse">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Descripe Expenses</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Amount Claimed</span>
+                <input type="text" placeholder="100.50">
+            </label>
+        </div>
+        <button type ="submit"class="button button-block button-calm" ng-click="doNewClaim()" ng-submit="doNewClaim()">
+            Submit
+        </button>
+
+    </ion-content>
+</ion-view>

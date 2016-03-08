@@ -1,0 +1,47 @@
+﻿<ion-view class="auth-view" cache-view="false">
+    <ion-nav-title>
+        <span>Tax Form 1099SA</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="list">
+            <label class="item item-input ">
+                <span class="input-label">Recipient ID</span>
+                <input type="text" placeholder="XXXXXXXXXXX">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Recipient's Name</span>
+                <input type="text" placeholder="John Doe">
+            </label>
+            <label class="item item-input l">
+                <span class="input-label">Gross Distribution</span>
+                <input type="text" placeholder="2321.26">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Earnings on Excess cont.</span>
+                <input type="text" placeholder="900.00">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Distribution Code</span>
+                <input type="text" placeholder="154654132">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">FMV on DoD</span>
+                <input type="text" placeholder="100.50">
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Type
+                </div>
+                <select>
+                    <option selected>HSA</option>
+                    <option>Archer MSA</option>
+                    <option>MA/MSA</option>
+                </select>
+            </label>
+        </div>
+        <button type="submit" class="button button-block button-calm" ng-click="goToTaxForms()">
+            Submit
+        </button>
+
+    </ion-content>
+</ion-view>

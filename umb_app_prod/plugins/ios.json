@@ -1,0 +1,54 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "com.synconset.imagepicker": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-admobpro": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-extension": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.startapplabs.ionFullApp"
+        }
+    },
+    "dependent_plugins": {}
+}

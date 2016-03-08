@@ -1,0 +1,15 @@
+{
+    "AdSupport.framework": 1,
+    "AudioToolbox.framework": 2,
+    "AVFoundation.framework": 1,
+    "CoreLocation.framework": 2,
+    "CoreTelephony.framework": 1,
+    "EventKit.framework": 1,
+    "EventKitUI.framework": 1,
+    "Foundation.framework": 1,
+    "MessageUI.framework": 2,
+    "QuartzCore.framework": 1,
+    "StoreKit.framework": 1,
+    "SystemConfiguration.framework": 1,
+    "UIKit.framework": 1
+}

@@ -1,0 +1,47 @@
+﻿<ion-view class="auth-view" cache-view="false">
+    <ion-nav-title>
+        <span>Tax Form 5498SA</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="list">
+            <label class="item item-input ">
+                <span class="input-label">Participant SSN</span>
+                <input type="text" placeholder="XXX-XX-XXXX">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Employee Archer MSA Contribution</span>
+                <input type="text" placeholder="1000.00">
+            </label>
+            <label class="item item-input l">
+                <span class="input-label">Total Contributions This Year</span>
+                <input type="text" placeholder="2321.26">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Rollover Contributions</span>
+                <input type="text" placeholder="900.00">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Fair Market Value</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Amount Claimed</span>
+                <input type="text" placeholder="100.50">
+            </label>
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Type
+                </div>
+                <select>
+                    <option selected>HSA</option>
+                    <option>Archer MSA</option>
+                    <option>MA/MSA</option>
+                </select>
+            </label>
+        </div>
+        <button type="submit" class="button button-block button-calm" ng-click="goToTaxForms()">
+            Submit
+        </button>
+
+    </ion-content>
+</ion-view>
