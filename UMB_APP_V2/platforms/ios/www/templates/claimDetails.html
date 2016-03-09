@@ -3,11 +3,11 @@
     <h1 class="title">Claim Details</h1>
 
     <ion-list can-swipe="true">
-      <ion-item ng-repeat="item in todos">
+      <ion-item ng-repeat="item in claims">
         <p>{{item.name}}</p> 
         <p>{{item.completed}}</p>
         <p>{{item.time}}</p>
-        <ion-option-button class="button-assertive" ng-click="deleteTodo(item.id)">
+        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
           Delete
         </ion-option-button>
       </ion-item>

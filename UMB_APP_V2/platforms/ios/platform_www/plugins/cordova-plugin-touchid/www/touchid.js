@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-touchid.TouchID", function(require, exports, module) { 
+cordova.define("cordova-plugin-touchid.TouchID", function(require, exports, module) {
+
 var exec = require("cordova/exec");
 
 var TouchID = function () {

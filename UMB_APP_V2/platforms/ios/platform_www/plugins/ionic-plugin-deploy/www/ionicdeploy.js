@@ -1,4 +1,5 @@
-cordova.define("ionic-plugin-deploy.IonicDeploy", function(require, exports, module) { var IonicDeploy = {
+cordova.define("ionic-plugin-deploy.IonicDeploy", function(require, exports, module) {
+var IonicDeploy = {
   init: function(app_id, server_host, success, failure) {
     cordova.exec(
       success,

@@ -17,7 +17,7 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'HelloCordova' target in the 'HelloCordova' project
+// Prefix header for all source files of the 'UMB_HSA' target in the 'UMB_HSA' project
 //
 
 #ifdef __OBJC__

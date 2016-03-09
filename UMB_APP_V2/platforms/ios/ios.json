@@ -9,7 +9,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"IonicDeploy\"><param name=\"ios-package\" onload=\"true\" value=\"IonicDeploy\" /></feature>",
+                            "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
                             "count": 1
                         },
                         {
@@ -37,19 +41,15 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"TouchID\"><param name=\"ios-package\" value=\"TouchID\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
+                            "xml": "<feature name=\"IonicDeploy\"><param name=\"ios-package\" onload=\"true\" value=\"IonicDeploy\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<preference name=\"CameraUsesGeolocation\" value=\"false\" />",
+                            "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -68,42 +68,66 @@
         }
     },
     "installed_plugins": {
-        "ionic-plugin-deploy": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
         "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
         "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "ionic-plugin-keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
         "cordova-plugin-touchid": {
             "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         },
-        "cordova-plugin-camera": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
+        },
+        "ionic-plugin-deploy": {
+            "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
+        },
+        "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.umbhsa129410"
         }
     },
     "dependent_plugins": {},
     "modules": [
         {
-            "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
-            "id": "ionic-plugin-deploy.IonicDeploy",
-            "pluginId": "ionic-plugin-deploy",
+            "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+            "id": "cordova-plugin-camera.Camera",
+            "pluginId": "cordova-plugin-camera",
             "clobbers": [
-                "IonicDeploy"
+                "Camera"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+            "id": "cordova-plugin-camera.CameraPopoverOptions",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "CameraPopoverOptions"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-camera/www/Camera.js",
+            "id": "cordova-plugin-camera.camera",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "navigator.camera"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js",
+            "id": "cordova-plugin-camera.CameraPopoverHandle",
+            "pluginId": "cordova-plugin-camera",
+            "clobbers": [
+                "CameraPopoverHandle"
             ]
         },
         {
@@ -147,15 +171,6 @@
             ]
         },
         {
-            "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
-            "id": "ionic-plugin-keyboard.keyboard",
-            "pluginId": "ionic-plugin-keyboard",
-            "clobbers": [
-                "cordova.plugins.Keyboard"
-            ],
-            "runs": true
-        },
-        {
             "file": "plugins/cordova-plugin-touchid/www/touchid.js",
             "id": "cordova-plugin-touchid.TouchID",
             "pluginId": "cordova-plugin-touchid",
@@ -164,47 +179,21 @@
             ]
         },
         {
-            "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
-            "id": "cordova-plugin-camera.Camera",
-            "pluginId": "cordova-plugin-camera",
+            "file": "plugins/ionic-plugin-deploy/www/ionicdeploy.js",
+            "id": "ionic-plugin-deploy.IonicDeploy",
+            "pluginId": "ionic-plugin-deploy",
             "clobbers": [
-                "Camera"
+                "IonicDeploy"
             ]
         },
         {
-            "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
-            "id": "cordova-plugin-camera.CameraPopoverOptions",
-            "pluginId": "cordova-plugin-camera",
+            "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
+            "id": "ionic-plugin-keyboard.keyboard",
+            "pluginId": "ionic-plugin-keyboard",
             "clobbers": [
-                "CameraPopoverOptions"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-camera/www/Camera.js",
-            "id": "cordova-plugin-camera.camera",
-            "pluginId": "cordova-plugin-camera",
-            "clobbers": [
-                "navigator.camera"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js",
-            "id": "cordova-plugin-camera.CameraPopoverHandle",
-            "pluginId": "cordova-plugin-camera",
-            "clobbers": [
-                "CameraPopoverHandle"
-            ]
+                "cordova.plugins.Keyboard"
+            ],
+            "runs": true
         }
-    ],
-    "plugin_metadata": {
-        "ionic-plugin-deploy": "0.4.1",
-        "cordova-plugin-console": "1.0.2",
-        "cordova-plugin-device": "1.1.1",
-        "cordova-plugin-splashscreen": "3.1.0",
-        "cordova-plugin-statusbar": "2.1.0",
-        "cordova-plugin-whitelist": "1.2.1",
-        "ionic-plugin-keyboard": "1.0.8",
-        "cordova-plugin-touchid": "0.3.0",
-        "cordova-plugin-camera": "2.1.0"
-    }
+    ]
 }
