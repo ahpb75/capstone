@@ -1,0 +1,18 @@
+<ion-view view-title="">
+  <ion-content class="padding">
+    <h1 class="title">Claim Details</h1>
+
+    <ion-list can-swipe="true">
+      <ion-item ng-repeat="item in claims">
+        <div>
+        <p ng-repeat="(key,value) in item">
+        {{key}}:{{value}}
+        </p>
+        </div>
+        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

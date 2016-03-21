@@ -1,0 +1,33 @@
+{
+  "name": "reimburse_claim",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "trans_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "date_of_expense": {
+      "type": "string"
+    },
+    "payment_method": {
+      "type": "string"
+    },
+    "total_reimbursement": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

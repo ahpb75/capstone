@@ -1,0 +1,12 @@
+{
+  "db": {
+    "host": "capstone.eastus.cloudapp.azure.com",
+    "port": 27017,
+    "url": "mongodb://capstone.eastus.cloudapp.azure.com:27017/production",
+    "database": "production",
+    "password": "",
+    "name": "db",
+    "connector": "mongodb",
+    "user": ""
+  }
+}
