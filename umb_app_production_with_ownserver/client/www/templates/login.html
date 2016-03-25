@@ -1,0 +1,31 @@
+<ion-view view-title="Login" name="login-view">
+  <ion-content class="padding">
+  <div class="row">
+    <img src="img/umb.png" height="50" width="100" style="display:block;margin-left:auto;margin-right:auto">
+    </div>
+    
+
+             <form novalidate="novalidate" name="loginForm">
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-ios-person"></i>
+                    <input type="text" name="username" placeholder="E-mail or username" ng-model="credentials.username"
+                           required>
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-ios-locked"></i>
+                    <input type="password" name="password" placeholder="Password" ng-model="credentials.password"
+                           required>
+                </label>
+            </div>
+            <div class="padding">
+                <button ng-disabled="!loginForm.$valid" class="button icon ion-log-in button-block button-royal"
+                        ng-click="login()">
+                    Login
+                </button>
+                <button class="button button-block button-royal button-outline" ng-click="signup()">Don't have an account yet?</button>
+
+            </div>
+        </form>
+  </ion-content>
+</ion-view>

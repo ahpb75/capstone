@@ -1,0 +1,27 @@
+{
+  "name": "balance_history",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "account_id": {
+      "type": "string"
+    },
+    "balance_date": {
+      "type": "string"
+    },
+    "curr_balance": {
+      "type": "number"
+    },
+    "avail_balance": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

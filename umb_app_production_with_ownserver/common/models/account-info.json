@@ -1,0 +1,57 @@
+{
+  "name": "account_info",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "account_number": {
+      "type": "number"
+    },
+    "account_type": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "routing_number": {
+      "type": "number"
+    },
+    "middle_initial": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "tax_id": {
+      "type": "string"
+    },
+    "street_address": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "zipcode": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

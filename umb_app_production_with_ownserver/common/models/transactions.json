@@ -1,0 +1,46 @@
+{
+  "name": "transactions",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "amount": {
+      "type": "number"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "provider_name": {
+      "type": "string"
+    },
+    "trans_category": {
+      "type": "string",
+      "required": true
+    },
+    "trans_image": {
+      "type": "string"
+    },
+    "trans_date": {
+      "type": "date",
+      "required": true
+    },
+    "trans_name": {
+      "type": "string",
+      "required": true
+    },
+    "trans_id": {
+      "type": "string",
+      "id": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
