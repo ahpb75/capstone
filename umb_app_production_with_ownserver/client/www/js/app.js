@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js'])
 
 .run(function($ionicPlatform) {
 
@@ -68,31 +68,59 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       }
     })
 
-  .state('tab.usageweekly',{
+  .state('tab.usageweekly1',{
     url:'/weeklyusage',
     views:{
       'tab-usage':{
-        templateUrl:'templates/weeklyusage.html',
+        templateUrl:'templates/weeklyusage1.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+
+  .state('tab.usageweekly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage2.html',
         controller:'UsageDetailCtrlweekly'
       }
     }
   })
 
-.state('tab.usagemonthly',{
+.state('tab.usagemonthly1',{
     url:'/monthlyusage',
     views:{
       'tab-usage':{
-        templateUrl:'templates/monthlyusage.html',
+        templateUrl:'templates/monthlyusage1.html',
         controller:'UsageDetailCtrlmonthly'
       }
     }
   })
-  .state('tab.usageyearly',{
+.state('tab.usagemonthly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage2.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+  .state('tab.usageyearly1',{
     url:'/yearlyusage',
     views:{
       'tab-usage':{
-        templateUrl:'templates/yearlyusage.html',
+        templateUrl:'templates/yearlyusage1.html',
         controller:'UsageDetailCtrlyearly'
+      }
+    }
+  })
+  .state('tab.usageyearly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage2.html',
+        controller:'ExampleController'
       }
     }
   })

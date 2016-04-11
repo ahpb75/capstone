@@ -92,20 +92,29 @@ angular.module('umb-hsa.controllers', [])
 })
 
 .controller('UsageCtrl',function($scope,$state){
- $scope.thisWeek = function(){
-    $state.go('tab.usageweekly');
+ $scope.Graph7 = function(){
+    $state.go('tab.usageweekly1');
   };
-
-  $scope.thisMonth = function(){
-    $state.go('tab.usagemonthly');
+  $scope.Detail7 = function(){
+    $state.go('tab.usageweekly2');
   };
-  $scope.thisYear = function(){
-    $state.go('tab.usageyearly');
+  $scope.Graph30 = function(){
+    $state.go('tab.usagemonthly2');
+  };
+  $scope.Detail30 = function(){
+    $state.go('tab.usagemonthly1');
+  };
+  $scope.Graph365 = function(){
+    $state.go('tab.usageyearly2');
+  };
+  $scope.Detail365 = function(){
+    $state.go('tab.usageyearly1');
   };
 
 })
 
 .controller('UsageDetailCtrlweekly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+
   $scope.claims = [];
     $scope.currentUser = Myuser.getCachedCurrent();
 
@@ -117,8 +126,6 @@ angular.module('umb-hsa.controllers', [])
           var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
         }
-      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
-      // $scope.claims.push(list[i].toJSON());
     }
     });
   }
@@ -213,4 +220,16 @@ angular.module('umb-hsa.controllers', [])
   }
  
   getAllClaims();
-});
+})
+
+.controller("ExampleController", function($scope) {
+ 
+    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['A', 'B'];
+    $scope.data = [
+        [65, 59, 80, 81, 56, 55, 40],
+        [28, 48, 40, 19, 86, 27, 90]
+    ];
+ 
+})
+;
