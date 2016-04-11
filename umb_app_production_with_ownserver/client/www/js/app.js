@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','backand','ngResource','lbServices'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices'])
 
 .run(function($ionicPlatform) {
 
@@ -22,12 +22,9 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
 })
 
 
-.config(function($stateProvider, $urlRouterProvider,BackandProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 
-  BackandProvider.setAppName('todo208240');
-  // BackandProvider.setSignUpToken('14e14c05-daee-4e2c-934d-471380117e89');
-  BackandProvider.setAnonymousToken('c23325f4-7213-48e9-961b-ee4dda31a7a9');
-
+  
   $stateProvider
 
   .state('login', {
@@ -104,4 +101,4 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
-});
+})
