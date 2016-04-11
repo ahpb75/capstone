@@ -1,8 +1,7 @@
-<ion-view view-title="">
+<ion-view view-title="Weeklyusage">
   <ion-content class="padding">
-    <h1 class="title">Claim Details</h1>
 
-    <ion-list can-swipe="true">
+    <ion-list >
       <ion-item ng-repeat="item in claims">
         <div>
         <ion-list>
@@ -13,9 +12,6 @@
         </ion-item>
         </ion-list>
         </div>
-        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
-          Delete
-        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

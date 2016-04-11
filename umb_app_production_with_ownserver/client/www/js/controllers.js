@@ -91,6 +91,81 @@ angular.module('umb-hsa.controllers', [])
        
 })
 
+.controller('UsageCtrl',function($scope,$state){
+ $scope.thisWeek = function(){
+    $state.go('tab.usageweekly');
+  };
+
+  $scope.thisMonth = function(){
+    $state.go('tab.usagemonthly');
+  };
+  $scope.thisYear = function(){
+    $state.go('tab.usageyearly');
+  };
+
+})
+
+.controller('UsageDetailCtrlweekly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+  $scope.claims = [];
+    $scope.currentUser = Myuser.getCachedCurrent();
+
+  function getAllClaims() {
+    Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth() && (new Date().getDate() - new Date(list[i].toJSON().date_of_expense).getDate()) <= 7)
+        {
+          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.claims.push(temp);
+        }
+      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
+      // $scope.claims.push(list[i].toJSON());
+    }
+    });
+  }
+  getAllClaims();
+
+})
+
+.controller('UsageDetailCtrlmonthly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+  $scope.claims = [];
+  $scope.currentUser = Myuser.getCachedCurrent();
+
+  function getAllClaims() {
+    Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth())
+        {
+          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.claims.push(temp);
+        }
+      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
+      // $scope.claims.push(list[i].toJSON());
+    }
+    });
+  }
+  getAllClaims();
+
+})
+
+.controller('UsageDetailCtrlyearly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+  $scope.claims = [];
+  $scope.currentUser = Myuser.getCachedCurrent();
+
+  function getAllClaims() {
+    Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){        
+          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.claims.push(temp);
+
+      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
+      // $scope.claims.push(list[i].toJSON());
+    }
+    });
+  }
+  getAllClaims();
+
+})
+
 .controller('ClaimCtrl', function($scope,$state) {
   $scope.viewClaim = function(){
     $state.go('tab.claimDetails');
@@ -105,10 +180,13 @@ angular.module('umb-hsa.controllers', [])
 .controller('ClaimDetailCtrl', function($scope,Myuser,$state,$ionicPopup,Reimburse_claim) {
   $scope.claims = [];
   $scope.input = {};
- 
+  $scope.currentUser = Myuser.getCachedCurrent();
+
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
+        // console.dir((new Date()).getMonth())
+        list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
       $scope.claims.push(list[i].toJSON());
     }
     });
@@ -117,7 +195,8 @@ angular.module('umb-hsa.controllers', [])
 
   $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.name,"date_of_expense":$scope.currDate.toJSON()};
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.total_reimbursement,"status":"Processing","description":$scope.input.description};
+    console.dir($scope.newClaim);
     Reimburse_claim.create($scope.newClaim);
     var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
     $state.go('tab.claim');

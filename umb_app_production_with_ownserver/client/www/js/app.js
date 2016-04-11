@@ -63,10 +63,39 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       views: {
         'tab-usage': {
           templateUrl: 'templates/tab-usage.html',
-          // controller: 'UsageCtrl'
+          controller: 'UsageCtrl'
         }
       }
     })
+
+  .state('tab.usageweekly',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage.html',
+        controller:'UsageDetailCtrlweekly'
+      }
+    }
+  })
+
+.state('tab.usagemonthly',{
+    url:'/monthlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage.html',
+        controller:'UsageDetailCtrlmonthly'
+      }
+    }
+  })
+  .state('tab.usageyearly',{
+    url:'/yearlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage.html',
+        controller:'UsageDetailCtrlyearly'
+      }
+    }
+  })
 
   .state('tab.claim', {
     url: '/claim',
@@ -97,7 +126,6 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   }
   })
-
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
