@@ -12,3 +12,11 @@
 	text-align: center;
 	left: 50%;
 }
+.item-divider{
+	color: blue;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
