@@ -1,7 +1,28 @@
 <ion-view view-title="Home">
   <ion-content class="padding">
     <h2>Welcome to UMB_HSA</h2>
-      {{currentUser}}
+
+        <div class="card">
+          <ion-item >
+          <div class="item item-divider">
+          Current Balance:
+          </div>
+          <div class="item item-text-wrap">
+          ${{curbal}}
+          </div>
+          </ion-item>
+        </div>
+         <div class="card">
+          <ion-item >
+          <div class="item item-divider">
+          Available Balance:
+          </div>
+          <div class="item item-text-wrap">
+          ${{avabal}}
+          </div>
+          </ion-item>
+        </div>
+
       <br><br>
       For test purpose, You could change your account id here
          <p> -- 56cf75c48f9f0c3ad718fa69</p>
