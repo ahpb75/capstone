@@ -80,7 +80,7 @@ angular.module('umb-hsa.controllers', [])
         };
 })
 
-.controller('DashCtrl', function($scope,Myuser,$location,Balance_history) {
+.controller('DashCtrl', function($scope,Myuser,$location,Balance_history,$state) {
         $scope.input = {};
         $scope.curbal = {};
         $scope.avabal = {};
@@ -100,6 +100,13 @@ angular.module('umb-hsa.controllers', [])
   }
   getBalance();
 
+    $scope.profile = function(){
+      $state.go('tab.profile');
+    }
+
+    $scope.tax = function(){
+      $state.go('tab.tax');
+    }
        
 })
 

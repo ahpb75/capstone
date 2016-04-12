@@ -28,15 +28,15 @@
         <button type ="submit"class="button button-block button-positive" ng-click="addClaim()">
             Submit
         </button>
-        <button class="button button-full button-assertive" ng-click="takePhoto()">
-            Take Photo2
+        <button class="button button-block button-positive" ng-click="takePhoto()">
+            Take Photo
         </button>
-        <button class="button button-full button-assertive" ng-click="choosePhoto()">
+        <button class="button button-block button-positive" ng-click="choosePhoto()">
             Choose Photo
         </button>
         <center>
         <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
-        <button class="button button-full button-assertive" ng-click="uploadImage()">
+        <button class="button button-block button-assertive" ng-click="uploadImage()">
             Process Photo
         </button>
         <div ng-controller="ExampleController">
