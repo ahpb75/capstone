@@ -15,6 +15,14 @@
 .item-divider{
 	color: blue;
 }
+
 .class-white{
 	color: black;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+
 }

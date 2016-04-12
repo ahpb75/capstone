@@ -2,25 +2,43 @@
   <ion-content class="padding">
 
     <ion-list can-swipe="true">
-      <ion-item ng-repeat="item in claims">
- <!--        <div>
-        <ion-list>
-        <ion-item ng-repeat="(key,value) in item">
-        <strong>{{key}}</strong>
-        <br>
-        {{value}}
-        </ion-item>
-        </ion-list>
-        </div> -->
-        <div class="card">
-          <ion-item ng-repeat="(key,value) in item">
+      <ion-item ng-repeat="item in claims" >
+
+        <div class="card" ng-click="show(item.s1,item.s2,item.s3,item.s4,item.s5)">
+          <ion-item>
           <div class="item item-divider">
-          {{key}}
+          Date of Expense :
           </div>
           <div class="item item-text-wrap">
-          {{value}}
+          {{item.s1}}
           </div>
+          <!-- <div class="item item-divider" ng-if="$index == 1">
+          Payment Method :
+          </div>
+          <div class="item item-divider" ng-if="$index == 2">
+          Reimbursement :
+          </div>
+          <div class="item item-divider" ng-if="$index == 3">
+          Transaction ID :
+          </div>
+          <div class="item item-divider" ng-if="$index == 4">
+          Status :
+          </div>
+          <div class="item item-text-wrap" ng-if="!$last">
+          {{value}}
+          </div> -->
           </ion-item>
+          <ion-item>
+          <div class="item item-divider">
+          Status :
+          </div>
+          <div class="item item-text-wrap">
+          {{item.s5}}
+          </div>
+          <ion-item>
+          Click For More Info
+          </ion-item>
+
         </div>
         <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
           Delete

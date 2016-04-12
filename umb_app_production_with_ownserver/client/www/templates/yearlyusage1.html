@@ -1,21 +1,24 @@
 <ion-view view-title="Yearlyusage" class="class-white">
   <ion-content class="padding">
 
-    <ion-list can-swipe="true">
+    <ion-list >
       <ion-item ng-repeat="item in claims">
         <div class="card">
           <ion-item ng-repeat="(key,value) in item">
-          <div class="item item-divider">
-          {{key}}
+          <div class="item item-divider" ng-if="$even">
+          Date of Expense
           </div>
-          <div class="item item-text-wrap">
+          <div class="item item-divider" ng-if="$odd">
+          Reimbursement
+          </div>
+          <div class="item item-text-wrap" ng-if="$even">
           {{value}}
+          </div>
+           <div class="item item-text-wrap" ng-if="$odd">
+          ${{value}}
           </div>
           </ion-item>
         </div>
-        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
-          Delete
-        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>
