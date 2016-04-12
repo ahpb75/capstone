@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 #login-view{
-	background: url('../img/bg-img.jpg');
+    background: url('../img/bg-img.jpg');
 	align-content: center;
 	
 }
@@ -14,4 +14,7 @@
 }
 .item-divider{
 	color: blue;
+}
+.class-white{
+	color: black;
 }
