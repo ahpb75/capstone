@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','backand','ngResource','lbServices'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js','ngCordova'])
 
 .run(function($ionicPlatform) {
 
@@ -22,12 +22,9 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
 })
 
 
-.config(function($stateProvider, $urlRouterProvider,BackandProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 
-  BackandProvider.setAppName('todo208240');
-  // BackandProvider.setSignUpToken('14e14c05-daee-4e2c-934d-471380117e89');
-  BackandProvider.setAnonymousToken('c23325f4-7213-48e9-961b-ee4dda31a7a9');
-
+  
   $stateProvider
 
   .state('login', {
@@ -61,15 +58,92 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   })
 
+  .state('tab.profile',{
+    url: '/profile',
+    views: {
+      'tab-dash':{
+        templateUrl: 'templates/profile.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.tax',{
+    url: '/tax',
+    views: {
+      'tab-dash':{
+        templateUrl: 'templates/tax.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
   .state('tab.usage', {
       url: '/usage',
       views: {
         'tab-usage': {
           templateUrl: 'templates/tab-usage.html',
-          // controller: 'UsageCtrl'
+          controller: 'UsageCtrl'
         }
       }
     })
+
+  .state('tab.usageweekly1',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage1.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+
+  .state('tab.usageweekly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage2.html',
+        controller:'UsageDetailCtrlweekly'
+      }
+    }
+  })
+
+.state('tab.usagemonthly1',{
+    url:'/monthlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage1.html',
+        controller:'UsageDetailCtrlmonthly'
+      }
+    }
+  })
+.state('tab.usagemonthly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage2.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+  .state('tab.usageyearly1',{
+    url:'/yearlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage1.html',
+        controller:'UsageDetailCtrlyearly'
+      }
+    }
+  })
+  .state('tab.usageyearly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage2.html',
+        controller:'ExampleController'
+      }
+    }
+  })
 
   .state('tab.claim', {
     url: '/claim',
@@ -86,7 +160,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     views:{
       'tab-claim':{
         templateUrl:'templates/newClaim.html',
-        controller: 'ClaimDetailCtrl'
+        controller: 'NewClaimCtrl'
       }
     }
   })
@@ -100,8 +174,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   }
   })
-
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
-});
+})
