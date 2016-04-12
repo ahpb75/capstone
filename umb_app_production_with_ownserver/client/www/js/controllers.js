@@ -261,7 +261,10 @@ angular.module('umb-hsa.controllers', [])
                 template: message
             });
             };
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 
   $scope.deleteClaim = function(idt) {
     Reimburse_claim.deleteById({id:idt})
