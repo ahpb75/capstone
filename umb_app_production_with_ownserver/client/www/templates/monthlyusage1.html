@@ -3,15 +3,21 @@
 
     <ion-list >
       <ion-item ng-repeat="item in claims">
-      Q{{count}}
-      <ion-item ng-repeat="i in item" count++>
+      Q{{$index+1}}
+      <ion-item ng-repeat="i in item">
         <div class="card">
           <ion-item ng-repeat="(key,value) in i">
-          <div class="item item-divider">
-          {{key}}
+          <div class="item item-divider" ng-if="$even">
+          Date of Expense
           </div>
-          <div class="item item-text-wrap">
+          <div class="item item-divider" ng-if="$odd">
+          Reimbursement
+          </div>
+          <div class="item item-text-wrap" ng-if="$even">
           {{value}}
+          </div>
+           <div class="item item-text-wrap" ng-if="$odd">
+          ${{value}}
           </div>
           </ion-item>
         
