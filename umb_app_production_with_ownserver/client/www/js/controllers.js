@@ -229,18 +229,31 @@ angular.module('umb-hsa.controllers', [])
 .controller('ClaimDetailCtrl', function($scope,Myuser,$state,$ionicPopup,Reimburse_claim) {
   $scope.claims = [];
   $scope.input = {};
+  // $scope.show = 0;
   $scope.currentUser = Myuser.getCachedCurrent();
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        // console.dir((new Date()).getMonth())
         list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
-      $scope.claims.push(list[i].toJSON());
+      // console.dir(list[i]);
+      var temp = {s1:list[i].date_of_expense,s2:list[i].payment_method,s3:list[i].total_reimbursement,s4:list[i].trans_id,s5:list[i].status,id:list[i].id};
+      $scope.claims.push(temp);
     }
     });
    
   }
+  console.dir($scope.claims);
+
+
+   $scope.show = function (i1,i2,i3,i4,i5) {
+
+        var message = "<strong>Date of Expense : </strong><br>"+i1+"<br><strong>Payment Method : </strong><br>"+i2+"<br><strong>Reimbursement : </strong><br>"+i3+"<br><strong>Transaction ID : </strong><br>"+i4+"<br><strong>Status : </strong><br>"+i5;
+            var alertPopup = $ionicPopup.alert({
+                title: "Details",
+                template: message
+            });
+            };
 
  
   $scope.deleteClaim = function(idt) {
