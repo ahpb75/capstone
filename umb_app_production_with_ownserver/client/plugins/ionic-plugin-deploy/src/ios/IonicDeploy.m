@@ -15,7 +15,7 @@
 @property NSString *appId;
 @property NSString *channel_tag;
 @property NSDictionary *last_update;
-@property Boolean ignore_deploy; 
+@property Boolean ignore_deploy;
 @property NSString *version_label;
 @property NSString *currentUUID;
 @property dispatch_queue_t serialQueue;
@@ -129,8 +129,10 @@ typedef struct JsonHttpResponse {
         NSLog(@"Response: %@", result.message);
 
         if(result.json != nil) {
-            NSNumber *compatible = [result.json valueForKey:@"compatible_binary"];
-            NSNumber *update_available = [result.json objectForKey:@"update_available"];
+            NSLog(@"JSON: %@", result.json);
+            NSDictionary *resp = [result.json objectForKey: @"data"];
+            NSNumber *compatible = [resp valueForKey:@"compatible"];
+            NSNumber *update_available = [resp valueForKey:@"available"];
             NSString *ignore_version = [prefs objectForKey:@"ionicdeploy_version_ignore"];
 
             NSLog(@"compatible: %@", (compatible) ? @"True" : @"False");
@@ -139,15 +141,13 @@ typedef struct JsonHttpResponse {
             if (compatible != [NSNumber numberWithBool:YES]) {
                 NSLog(@"Refusing update due to incompatible binary version");
             } else if(update_available == [NSNumber numberWithBool: YES]) {
-                NSDictionary *update = [result.json objectForKey:@"update"];
-                NSString *update_uuid = [update objectForKey:@"uuid"];
-
+                NSString *update_uuid = [resp objectForKey:@"snapshot"];
                 NSLog(@"update uuid: %@", update_uuid);
 
                 if(![update_uuid isEqual:ignore_version] && ![update_uuid isEqual:our_version]) {
                     [prefs setObject: update_uuid forKey: @"upstream_uuid"];
                     [prefs synchronize];
-                    self.last_update = result.json;
+                    self.last_update = resp;
                 } else {
                   update_available = 0;
                 }
@@ -191,10 +191,8 @@ typedef struct JsonHttpResponse {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"false"] callbackId:self.callbackId];
         } else {
             NSDictionary *result = self.last_update;
-            NSDictionary *update = [result objectForKey:@"update"];
-            NSString *download_url = [update objectForKey:@"url"];
+            NSString *download_url = [result objectForKey:@"url"];
 
-            NSLog(@"update is: %@", update);
             NSLog(@"download url is: %@", download_url);
 
             self.downloadManager = [[DownloadManager alloc] initWithDelegate:self];
@@ -276,7 +274,7 @@ typedef struct JsonHttpResponse {
     self.appId = [command.arguments objectAtIndex:0];
     CDVPluginResult *pluginResult = nil;
     NSString *uuid = [command.arguments objectAtIndex:1];
-    
+
     if (uuid == nil || uuid == [NSNull null] || [uuid isEqualToString:@""] || [uuid isEqualToString:@"null"]) {
         uuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"upstream_uuid"];
     }
@@ -284,8 +282,14 @@ typedef struct JsonHttpResponse {
     if (uuid == nil || uuid == [NSNull null] || [uuid isEqualToString:@""] || [uuid isEqualToString:@"null"]) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"NO_DEPLOY_UUID_AVAILABLE"];
     } else {
+        NSString *strippedUUID = [uuid stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        NSMutableString *formattedUUID = [NSMutableString stringWithString: strippedUUID];
+        [formattedUUID insertString: @"-" atIndex: 8];
+        [formattedUUID insertString: @"-" atIndex: 13];
+        [formattedUUID insertString: @"-" atIndex: 18];
+        [formattedUUID insertString: @"-" atIndex: 23];
         NSString *baseUrl = self.deploy_server;
-        NSString *endpoint = [NSString stringWithFormat:@"/api/v1/apps/%@/updates/%@/", self.appId, uuid];
+        NSString *endpoint = [NSString stringWithFormat:@"/deploy/snapshots/%@?app_id=%@", formattedUUID.lowercaseString, self.appId];
         NSString *url = [NSString stringWithFormat:@"%@%@", baseUrl, endpoint];
         NSDictionary* headers = @{@"Content-Type": @"application/json", @"accept": @"application/json"};
 
@@ -297,7 +301,14 @@ typedef struct JsonHttpResponse {
         }] asJson:&httpError];
 
         @try {
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[result.body JSONObject]];
+            JsonHttpResponse response;
+            response.json = [result.body JSONObject];
+            NSDictionary *resp = [response.json objectForKey: @"data"];
+            NSDictionary *metadata = [resp objectForKey:@"user_metadata"];
+            NSDictionary *res = @{
+                @"metadata": metadata
+            };
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:res];
         }
         @catch (NSException *exception) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"DEPLOY_HTTP_ERROR"];
@@ -318,7 +329,7 @@ typedef struct JsonHttpResponse {
     NSString *ignore = [prefs stringForKey:@"ionicdeploy_version_ignore"];
     if (ignore == nil) {
         ignore = NOTHING_TO_IGNORE;
-    } 
+    }
     NSLog(@"uuid is: %@", uuid);
     if (self.ignore_deploy) {
        NSLog(@"ignore deploy");
@@ -333,7 +344,7 @@ typedef struct JsonHttpResponse {
 
 
             NSString *query = [NSString stringWithFormat:@"cordova_js_bootstrap_resource=%@", self.cordova_js_resource];
-            
+
             NSURLComponents *components = [NSURLComponents new];
             components.scheme = @"file";
             components.path = [NSString stringWithFormat:@"%@/%@/index.html", libraryDirectory, uuid];
@@ -342,7 +353,7 @@ typedef struct JsonHttpResponse {
             self.currentUUID = uuid;
 
             NSLog(@"Redirecting to: %@", components.URL.absoluteString);
-            [self.webView loadRequest: [NSURLRequest requestWithURL:components.URL] ];
+             [((UIWebView*)self.webView) loadRequest: [NSURLRequest requestWithURL:components.URL] ];
         }
         });
     }
@@ -350,20 +361,25 @@ typedef struct JsonHttpResponse {
 
 - (struct JsonHttpResponse) postDeviceDetails {
     NSString *baseUrl = self.deploy_server;
-    NSString *endpoint = [NSString stringWithFormat:@"/api/v1/apps/%@/updates/check/", self.appId];
+    NSString *endpoint = [NSString stringWithFormat:@"/deploy/channels/%@/check-device/", self.channel_tag];
     NSString *url = [NSString stringWithFormat:@"%@%@", baseUrl, endpoint];
     NSDictionary* headers = @{@"Content-Type": @"application/json", @"accept": @"application/json"};
     NSString *uuid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uuid"];
     NSString *app_version = [[self deconstructVersionLabel:self.version_label] firstObject];
 
-    if (uuid == nil) {
-        uuid = @"";
+    NSMutableDictionary *deviceDict = [NSMutableDictionary
+        dictionaryWithDictionary:@{
+        @"platform" : @"ios",
+        @"binary_version" : app_version,
+    }];
+
+    if (uuid != nil && ![uuid  isEqual: @""]) {
+        deviceDict[@"snapshot"] = uuid;
     }
 
     NSDictionary *parameters = @{
-        @"device_app_version": app_version,
-        @"device_deploy_uuid": uuid,
-        @"device_platform": @"ios",
+        @"device": deviceDict,
+        @"app_id": self.appId,
         @"channel_tag": self.channel_tag
     };
 
@@ -390,7 +406,6 @@ typedef struct JsonHttpResponse {
         NSLog(@"Exception: %@", exception.reason);
     }
     @finally {
-        NSLog(@"In Finally");
         NSLog(@"JSON Error: %@", jsonError);
 
         if (jsonError != nil) {
@@ -417,7 +432,7 @@ typedef struct JsonHttpResponse {
 - (NSMutableArray *) getDeployVersions {
     NSArray *versions = [self getMyVersions];
     NSMutableArray *deployVersions = [[NSMutableArray alloc] initWithCapacity:5];
-    
+
     for (id version in versions) {
         NSArray *version_parts = [version componentsSeparatedByString:@"|"];
         NSString *version_uuid = version_parts[1];
@@ -431,7 +446,7 @@ typedef struct JsonHttpResponse {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     NSArray *versions = [self getMyVersions];
     NSMutableArray *newVersions = [[NSMutableArray alloc] initWithCapacity:5];
-    
+
     for (id version in versions) {
         NSArray *version_parts = [version componentsSeparatedByString:@"|"];
         NSString *version_uuid = version_parts[1];
@@ -592,7 +607,7 @@ typedef struct JsonHttpResponse {
     NSLog(@"Download Error");
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"download error"];
-    
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 

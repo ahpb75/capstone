@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js','ngCordova'])
 
 .run(function($ionicPlatform) {
 
@@ -140,7 +140,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     views:{
       'tab-claim':{
         templateUrl:'templates/newClaim.html',
-        controller: 'ClaimDetailCtrl'
+        controller: 'NewClaimCtrl'
       }
     }
   })
