@@ -1,14 +1,32 @@
 <ion-view view-title="Home">
   <ion-content class="padding">
     <h2>Welcome to UMB_HSA</h2>
-    <div>
-   <p> Test Data: account_id: </p>
-   <p>1 -- 56cf75c48f9f0c3ad718fa69</p>
-   <p> 2 -- 56cf75c48f9f0c3ad718fa6a </p>
-   <p> temperatly you have to refresh the page and relogin after you reset the accountid</p>
-   <p> You will noticed the view claim is realted to the user loged in </p>
-    </div>
-      {{currentUser}}
+
+        <div class="card">
+          <ion-item >
+          <div class="item item-divider">
+          Current Balance:
+          </div>
+          <div class="item item-text-wrap">
+          ${{curbal}}
+          </div>
+          </ion-item>
+        </div>
+         <div class="card">
+          <ion-item >
+          <div class="item item-divider">
+          Available Balance:
+          </div>
+          <div class="item item-text-wrap">
+          ${{avabal}}
+          </div>
+          </ion-item>
+        </div>
+
+      <br><br>
+      For test purpose, You could change your account id here
+         <p> -- 56cf75c48f9f0c3ad718fa69</p>
+            <p>  -- 56cf75c48f9f0c3ad718fa6a </p>
       <div class="item-input-inset">
       <label class="item-input-wrapper">
         <input type="text" placeholder="Account id" ng-model="input.accountid">

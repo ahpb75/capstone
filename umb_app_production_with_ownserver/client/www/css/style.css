@@ -1,1 +1,17 @@
 /* Empty. Add your own CSS if you like */
+#login-view{
+	background: url('../img/bg-img.jpg');
+	align-content: center;
+	
+}
+#login-header{
+	color: white;
+	font-size: 18pt;
+	font-family:'Open Sans';
+	align-content: center;
+	text-align: center;
+	left: 50%;
+}
+.item-divider{
+	color: blue;
+}

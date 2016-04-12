@@ -1,4 +1,4 @@
-package com.ionic.deploy;
+package io.ionic.deploy;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -46,7 +46,7 @@ class JsonHttpResponse {
 
 
 public class IonicDeploy extends CordovaPlugin {
-  String server = "https://apps.ionic.io";
+  String server = "https://api.ionic.io";
   Context myContext = null;
   String app_id = null;
   boolean debug = true;
@@ -223,7 +223,11 @@ public class IonicDeploy extends CordovaPlugin {
         callbackContext.error("NO_DEPLOY_UUID_AVAILABLE");
       } else {
         final String metadata_uuid = uuid;
-        this.getMetadata(callbackContext, metadata_uuid);  
+        cordova.getThreadPool().execute(new Runnable() {
+          public void run() {
+            getMetadata(callbackContext, metadata_uuid);
+          }
+        });
       }
       return true;
     } else {
@@ -232,7 +236,8 @@ public class IonicDeploy extends CordovaPlugin {
   }
 
   private JSONObject getMetadata(CallbackContext callbackContext, final String uuid) {
-    String endpoint = "/api/v1/apps/" + this.app_id + "/updates/" + uuid + "/";
+    String strictuuid = uuid.replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5");
+    String endpoint = "/deploy/snapshots/" + strictuuid + "?app_id=" + this.app_id;
     JsonHttpResponse response = new JsonHttpResponse();
     JSONObject json = new JSONObject();
     HttpURLConnection urlConnection = null;
@@ -258,7 +263,10 @@ public class IonicDeploy extends CordovaPlugin {
     JSONObject jsonResponse = null;
     try {
       jsonResponse = new JSONObject(result);
-      callbackContext.success(jsonResponse);
+      JSONObject d = jsonResponse.getJSONObject("data");
+      JSONObject user_metadata = d.getJSONObject("user_metadata");
+      json.put("metadata", user_metadata);
+      callbackContext.success(json);
     } catch (JSONException e) {
       response.error = true;
       callbackContext.error("There was an error fetching the metadata");
@@ -299,15 +307,15 @@ public class IonicDeploy extends CordovaPlugin {
 
     try {
       if (response.json != null) {
-        Boolean compatible = Boolean.valueOf(response.json.getString("compatible_binary"));
-        Boolean updatesAvailable = Boolean.valueOf(response.json.getString("update_available"));
+        JSONObject update = response.json.getJSONObject("data");
+        Boolean compatible = Boolean.valueOf(update.getString("compatible"));
+        Boolean updatesAvailable = Boolean.valueOf(update.getString("available"));
 
         if(!compatible) {
           logMessage("CHECK", "Refusing update due to incompatible binary version");
         } else if(updatesAvailable) {
           try {
-            JSONObject update = response.json.getJSONObject("update");
-            String update_uuid = update.getString("uuid");
+            String update_uuid = update.getString("snapshot");
             if(!update_uuid.equals(ignore_version) && !update_uuid.equals(loaded_version)) {
               prefs.edit().putString("upstream_uuid", update_uuid).apply();
               this.last_update = update;
@@ -491,16 +499,20 @@ public class IonicDeploy extends CordovaPlugin {
   }
 
   private JsonHttpResponse postDeviceDetails(String uuid, final String channel_tag) {
-
-    String endpoint = "/api/v1/apps/" + this.app_id + "/updates/check/";
+    String endpoint = "/deploy/channels/" + channel_tag + "/check-device";
     JsonHttpResponse response = new JsonHttpResponse();
     JSONObject json = new JSONObject();
+    JSONObject device_details = new JSONObject();
 
     try {
-      json.put("device_app_version", this.deconstructVersionLabel(this.version_label)[0]);
-      json.put("device_deploy_uuid", uuid);
-      json.put("device_platform", "android");
+      device_details.put("binary_version", this.deconstructVersionLabel(this.version_label)[0]);
+      if(!uuid.equals("")) {
+        device_details.put("snapshot", uuid);
+      }
+      device_details.put("platform", "android");
       json.put("channel_tag", channel_tag);
+      json.put("app_id", this.app_id);
+      json.put("device", device_details);
 
       String params = json.toString();
       byte[] postData = params.getBytes("UTF-8");
@@ -585,9 +597,6 @@ public class IonicDeploy extends CordovaPlugin {
 
     logMessage("UNZIP", upstream_uuid);
 
-    this.ignore_deploy = false;
-    this.updateVersionLabel(IonicDeploy.NOTHING_TO_IGNORE);
-
     if (upstream_uuid != "" && this.hasVersion(upstream_uuid)) {
       callbackContext.success("done"); // we have already extracted this version
       return;
@@ -645,6 +654,23 @@ public class IonicDeploy extends CordovaPlugin {
     } catch(Exception e) {
       //TODO Handle problems..
       logMessage("UNZIP_STEP", "Exception: " + e.getMessage());
+
+      // clean up any zip files dowloaded as they may be corrupted, we can download again if we start over
+      String wwwFile = this.myContext.getFileStreamPath(zip).getAbsolutePath().toString();
+      if (this.myContext.getFileStreamPath(zip).exists()) {
+        String deleteCmd = "rm -r " + wwwFile;
+        Runtime runtime = Runtime.getRuntime();
+        try {
+          runtime.exec(deleteCmd);
+          logMessage("REMOVE", "Removed www.zip");
+        } catch (IOException ioe) {
+          logMessage("REMOVE", "Failed to remove " + wwwFile + ". Error: " + e.getMessage());
+        }
+      }
+
+      // make sure to send an error
+      callbackContext.error(e.getMessage());
+      return;
     }
 
     // Save the version we just downloaded as a version on hand
@@ -661,6 +687,10 @@ public class IonicDeploy extends CordovaPlugin {
         logMessage("REMOVE", "Failed to remove " + wwwFile + ". Error: " + e.getMessage());
       }
     }
+
+    // if we get here we know unzip worked
+    this.ignore_deploy = false;
+    this.updateVersionLabel(IonicDeploy.NOTHING_TO_IGNORE);
 
     callbackContext.success("done");
   }
