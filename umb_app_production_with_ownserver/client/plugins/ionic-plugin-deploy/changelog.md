@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## 0.5.0
+
+* **(breaking)** The plugin is incompatible with `ionic-platform-web-client` 
+  version 0.6.0 and lower.
+* (fix) Android package is now correctly set as io.ionic
+* (fix) Plugin now builds correctly cordova-ios 4.x - PR #50
+* (fix) Errors propagate correctly when unzip fails - PR #44
+* Updated plugin to communicate directly with the Ionic Platform API
 
 ## 0.4.1
 

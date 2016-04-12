@@ -1,10 +1,12 @@
 <ion-view view-title="Monthlyusage">
   <ion-content class="padding">
 
-    <ion-list can-swipe="true">
+    <ion-list >
       <ion-item ng-repeat="item in claims">
+      Q{{count}}
+      <ion-item ng-repeat="i in item" count++>
         <div class="card">
-          <ion-item ng-repeat="(key,value) in item">
+          <ion-item ng-repeat="(key,value) in i">
           <div class="item item-divider">
           {{key}}
           </div>
@@ -12,10 +14,8 @@
           {{value}}
           </div>
           </ion-item>
-        </div>
-        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
-          Delete
-        </ion-option-button>
+        
+          </ion-item>
       </ion-item>
     </ion-list>
   </ion-content>

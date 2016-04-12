@@ -28,6 +28,19 @@
         <button type ="submit"class="button button-block button-calm" ng-click="addClaim()">
             Submit
         </button>
-
+        <button class="button button-full button-assertive" ng-click="takePhoto()">
+            Take Photo2
+        </button>
+        <button class="button button-full button-assertive" ng-click="choosePhoto()">
+            Choose Photo
+        </button>
+        <center>
+        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
+        <button class="button button-full button-assertive" ng-click="uploadImage()">
+            Process Photo
+        </button>
+        <div ng-controller="ExampleController">
+          <p>{{res}}</p>
+        </div>
     </ion-content>
 </ion-view>

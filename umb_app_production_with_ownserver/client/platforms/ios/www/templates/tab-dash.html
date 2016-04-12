@@ -1,22 +1,29 @@
 <ion-view view-title="Home">
   <ion-content class="padding">
     <h2>Welcome to UMB_HSA</h2>
-    <p> Those images will be change to other real images which are clickable for user. And each of them will take user to a specific functionality page as it states on the image</p>
-  <div class="row">
-  <div class="col col-50">
-  <img src = "img/umb.png" style="width:100%;height:100%">
-  </div>
-    <div class="col col-50">
-  <img src = "img/umb.png" style="width:100%;height:100%">
-  </div>
-  </div>
-  <div class="row">
-  <div class="col col-50">
-  <img src = "img/umb.png" style="width:100%;height:100%">
-  </div>
-    <div class="col col-50">
-  <img src = "img/umb.png" style="width:100%;height:100%">
-  </div>
-  </div>
+
+        <div class="card">
+          <ion-item ng-repeat="(key,value) in bal">
+          <div class="item item-divider">
+          {{key}}
+          </div>
+          <div class="item item-text-wrap">
+          {{value}}
+          </div>
+          </ion-item>
+        </div>
+
+      <br><br>
+      For test purpose, You could change your account id here
+         <p> -- 56cf75c48f9f0c3ad718fa69</p>
+            <p>  -- 56cf75c48f9f0c3ad718fa6a </p>
+      <div class="item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Account id" ng-model="input.accountid">
+      </label>
+      <button class="button button-balanced button-small" ng-click="addAccountid()">
+        Add
+      </button>
+    </div>
   </ion-content>
 </ion-view>

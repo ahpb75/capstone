@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngCordova','backand'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js','ngCordova'])
 
 .run(function($ionicPlatform) {
 
@@ -15,24 +15,6 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       StatusBar.styleDefault();
     }
   });
-
-//   $cordovaTouchID.checkSupport().then(function() {
-//     //2
-//     $cordovaTouchID.authenticate("Please authenticate with your fingerprint!").then(function() {
-//         // 3
-//         alert("You are a trusty mate! Come in and find out...")
-//     }, function (error) { // 4
-//         // Hopefully, there will be a better callback code in future releases
-//         if (error == "Fallback authentication mechanism selected.") {
-//             // User selected to enter a password 
-//         } else {
-//             alert("Sorry, we are not able to grant access.");
-//         }
-//     });
-// }, function (error) { // 5
-//     alert(error); // TouchID not supported
-// });
-
 })
 
 .config(function($compileProvider){
@@ -40,12 +22,9 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
 })
 
 
-.config(function($stateProvider, $urlRouterProvider,BackandProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 
-  BackandProvider.setAppName('todo208240');
-  // BackandProvider.setSignUpToken('14e14c05-daee-4e2c-934d-471380117e89');
-  BackandProvider.setAnonymousToken('c23325f4-7213-48e9-961b-ee4dda31a7a9');
-
+  
   $stateProvider
 
   .state('login', {
@@ -84,10 +63,67 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       views: {
         'tab-usage': {
           templateUrl: 'templates/tab-usage.html',
-          // controller: 'UsageCtrl'
+          controller: 'UsageCtrl'
         }
       }
     })
+
+  .state('tab.usageweekly1',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage1.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+
+  .state('tab.usageweekly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/weeklyusage2.html',
+        controller:'UsageDetailCtrlweekly'
+      }
+    }
+  })
+
+.state('tab.usagemonthly1',{
+    url:'/monthlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage1.html',
+        controller:'UsageDetailCtrlmonthly'
+      }
+    }
+  })
+.state('tab.usagemonthly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/monthlyusage2.html',
+        controller:'ExampleController'
+      }
+    }
+  })
+  .state('tab.usageyearly1',{
+    url:'/yearlyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage1.html',
+        controller:'UsageDetailCtrlyearly'
+      }
+    }
+  })
+  .state('tab.usageyearly2',{
+    url:'/weeklyusage',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/yearlyusage2.html',
+        controller:'ExampleController'
+      }
+    }
+  })
 
   .state('tab.claim', {
     url: '/claim',
@@ -104,7 +140,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     views:{
       'tab-claim':{
         templateUrl:'templates/newClaim.html',
-        controller: 'ClaimDetailCtrl'
+        controller: 'NewClaimCtrl'
       }
     }
   })
@@ -118,8 +154,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   }
   })
-
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
-});
+})
