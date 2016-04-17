@@ -1,10 +1,31 @@
-<ion-view view-title="Weeklyusage">
-  <ion-content class="padding">
+<ion-view view-title="Monthly Usage History">
+<!--  <ion-content class="padding">-->
 
-  <button class="button button-block button-positive" ng-click="viewGraph()">
+ 
+
+    <ion-content>
+    <!--<div class="row header">
+    <div class="col" style="font-size: 14pt;">Date of Expense</div>
+    <div class="col" style="font-size: 14pt;">Reimbursement</div>
+    </div>
+    <div class="row" style="border:1px solid black" ng-repeat="item in claims">
+    <div class="col" ng-repeat="(key,value) in item" ng-if="$even" >{{value}}</div>
+    <div class="col" ng-repeat="(key,value) in item" ng-if="$odd">${{value}}</div>
+    </div>-->
+
+<table style="width: 100%;" orderby:>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Date of Expense</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Reimbursement</th>
+<tr ng-repeat="item in claims">
+<td ng-repeat="(key,value) in item" ng-if="$even" >{{ value }}</td>
+<td ng-repeat="(key,value) in item" ng-if="$odd" >${{ value }}</td>
+</tr>
+</table>
+
+
+ <button class="button button-block button-positive" ng-click="viewGraph()">
             View Graph Visulazation
-        </button>
-    <ion-list >
+        </button></ion-content>
+  <!--  <ion-list >
       <ion-item ng-repeat="item in claims">
         <div class="card">
           <ion-item ng-repeat="(key,value) in item">
@@ -23,7 +44,7 @@
           </ion-item>
         </div>
       </ion-item>
-    </ion-list>
+    </ion-list>-->
 
     
   </ion-content>

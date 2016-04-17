@@ -1,25 +1,12 @@
-<ion-view view-title="Yearlyusage" class="class-white">
+<ion-view view-title="Yearly Usage History" class="class-white">
   <ion-content class="padding">
 
-    <ion-list >
-      <ion-item ng-repeat="item in claims">
-        <div class="card">
-          <ion-item ng-repeat="(key,value) in item">
-          <div class="item item-divider" ng-if="$even">
-          Date of Expense
-          </div>
-          <div class="item item-divider" ng-if="$odd">
-          Reimbursement
-          </div>
-          <div class="item item-text-wrap" ng-if="$even">
-          {{value}}
-          </div>
-           <div class="item item-text-wrap" ng-if="$odd">
-          ${{value}}
-          </div>
-          </ion-item>
-        </div>
-      </ion-item>
-    </ion-list>
+<table style="width: 100%;" orderby:>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Date of Expense</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Reimbursement</th>
+<tr ng-repeat="item in claims">
+<td ng-repeat="(key,value) in item" ng-if="$even" >{{ value }}</td>
+<td ng-repeat="(key,value) in item" ng-if="$odd" >${{ value }}</td>
+</tr>
+</table>
   </ion-content>
 </ion-view>
