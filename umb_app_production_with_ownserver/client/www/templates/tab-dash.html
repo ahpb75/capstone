@@ -1,34 +1,38 @@
-<ion-view view-title="Home">
+<ion-view view-title="Home" class="class-white">
   <ion-content class="padding">
-    <h2>Welcome to UMB_HSA</h2>
+    <center><h2 class="class-white">Welcome back!</h2></center>
 
         <div class="card">
-          <ion-item >
+          <!--<ion-item >-->
           <div class="item item-divider">
           Current Balance:
           </div>
-          <div class="item item-text-wrap">
+        <div class="item item-text-wrap">
           ${{curbal}}
-          </div>
-          </ion-item>
-        </div>
-         <div class="card">
-          <ion-item >
+          
+          <!--</ion-item>-->
+        </div></div>
+        <div class="card">
+        <!--  <ion-item >-->
           <div class="item item-divider">
           Available Balance:
           </div>
           <div class="item item-text-wrap">
           ${{avabal}}
-          </div>
-          </ion-item>
-        </div>
+
+          
+        <!--  </ion-item>-->
+       </div> </div>
 
     <div class="row">
     <div class="col">
     <img src = "ionic.png" ng-click="profile()" class="center">
     <center><span>View Profile</span></center>
+
     </div>
+    
     <div class="col">
+
     <img src = "ionic.png" ng-click="tax()" class="center">
     <center><p class="center">Balance History</p></center>
     </div>
