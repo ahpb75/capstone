@@ -51,7 +51,7 @@ angular.module('umb-hsa.controllers', [])
                      * Save avatar
                      */
                      // console.dir(res);
-    
+
                             Myuser.login({include: 'user', rememberMe: true}, $scope.registration)
                                 .$promise
                                 .then(function (res) {
@@ -62,7 +62,7 @@ angular.module('umb-hsa.controllers', [])
                                 })
 
 
-                        
+
                 }, function (err) {
                     $scope.registerError = err;
                     $scope.showAlert(err.statusText, err.data.error.message);
@@ -80,25 +80,34 @@ angular.module('umb-hsa.controllers', [])
         };
 })
 
-.controller('DashCtrl', function($scope,Myuser,$location,Balance_history) {
+.controller('DashCtrl', function($scope,Myuser,$location,Balance_history,$state) {
         $scope.input = {};
-        $scope.bal = {};
+        $scope.curbal = {};
+        $scope.avabal = {};
         $scope.currentUser = Myuser.getCachedCurrent();
         $scope.addAccountid = function(){
-          Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid }); 
+          Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
           // Myuser.logout({},$scope.currentUser.id);
           // $location.path('login');
         };
         function getBalance() {
       Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
         console.dir(list[0].toJSON());
-          $scope.bal = {Current_Balance:list[0].toJSON().curr_balance,Avaiable_Balance:list[0].toJSON().avail_balance};
-    
+          $scope.curbal = list[0].toJSON().curr_balance;
+          $scope.avabal = list[0].toJSON().avail_balance;
+
     });
   }
   getBalance();
 
-       
+    $scope.profile = function(){
+      $state.go('tab.profile');
+    }
+
+    $scope.tax = function(){
+      $state.go('tab.tax');
+    }
+
 })
 
 .controller('UsageCtrl',function($scope,$state){
@@ -131,7 +140,7 @@ angular.module('umb-hsa.controllers', [])
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth() && (new Date().getDate() - new Date(list[i].toJSON().date_of_expense).getDate()) <= 7)
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth())
         {
           var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
@@ -145,20 +154,50 @@ angular.module('umb-hsa.controllers', [])
 
 .controller('UsageDetailCtrlmonthly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
   $scope.claims = [];
+  $scope.temp = [];
   $scope.currentUser = Myuser.getCachedCurrent();
+  $scope.count = 1;
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth())
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 3)
         {
-          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
-          $scope.claims.push(temp);
+          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.temp.push(t);
         }
-      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
-      // $scope.claims.push(list[i].toJSON());
     }
+      $scope.claims.push($scope.temp);
+      $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 6 && new Date(list[i].toJSON().date_of_expense).getMonth() >=3 )
+        {
+          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.temp.push(t);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 9 && new Date(list[i].toJSON().date_of_expense).getMonth() >=6)
+        {
+          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.temp.push(t);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 12 && new Date(list[i].toJSON().date_of_expense).getMonth() >=9)
+        {
+          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          $scope.temp.push(t);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
     });
+    console.dir($scope.claims);
   }
   getAllClaims();
 
@@ -170,7 +209,7 @@ angular.module('umb-hsa.controllers', [])
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
-      for(i=0; i<list.length;i++){        
+      for(i=0; i<list.length;i++){
           var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
 
@@ -197,20 +236,33 @@ angular.module('umb-hsa.controllers', [])
 .controller('ClaimDetailCtrl', function($scope,Myuser,$state,$ionicPopup,Reimburse_claim) {
   $scope.claims = [];
   $scope.input = {};
+  // $scope.show = 0;
   $scope.currentUser = Myuser.getCachedCurrent();
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        // console.dir((new Date()).getMonth())
         list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
-      $scope.claims.push(list[i].toJSON());
+      // console.dir(list[i]);
+      var temp = {s1:list[i].date_of_expense,s2:list[i].payment_method,s3:list[i].total_reimbursement,s4:list[i].trans_id,s5:list[i].status,id:list[i].id};
+      $scope.claims.push(temp);
     }
     });
-   
-  }
 
- 
+  }
+  console.dir($scope.claims);
+
+
+   $scope.show = function (i1,i2,i3,i4,i5) {
+
+        var message = "<strong>Date of Expense : </strong><br>"+i1+"<br><strong>Payment Method : </strong><br>"+i2+"<br><strong>Reimbursement : </strong><br>"+i3+"<br><strong>Transaction ID : </strong><br>"+i4+"<br><strong>Status : </strong><br>"+i5;
+            var alertPopup = $ionicPopup.alert({
+                title: "Details",
+                template: message
+            });
+            };
+
+
   $scope.deleteClaim = function(idt) {
     Reimburse_claim.deleteById({id:idt})
     .$promise
@@ -219,26 +271,26 @@ angular.module('umb-hsa.controllers', [])
       getAllClaims();
     });
   }
- 
+
   getAllClaims();
 })
 
 .controller("ExampleController", function($scope) {
- 
+
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
     $scope.series = ['A', 'B'];
     $scope.data = [
         [65, 59, 80, 81, 56, 55, 40],
         [28, 48, 40, 19, 86, 27, 90]
     ];
- 
+
 })
 .controller("NewClaimCtrl", function ($scope, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser) {
 
 $scope.claims = [];
   $scope.input = {};
   $scope.currentUser = Myuser.getCachedCurrent();
-  
+
       $scope.addClaim = function() {
     $scope.currDate = new Date();
     $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.total_reimbursement,"status":"Processing","description":$scope.input.description};
@@ -335,6 +387,18 @@ $scope.claims = [];
               }
 
               */
+  function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + '-' + month + '-' + year + '-' + hour + ':' + min + ':' + sec ;
+  return time;
+}
 
 $scope.uploadImage = function(imageData){
   var url = "http://capstone.eastus.cloudapp.azure.com/upload/upload2.php";
@@ -342,9 +406,11 @@ $scope.uploadImage = function(imageData){
      //File for Upload
      //var targetPath = cordova.file.externalRootDirectory + "logo_radni.png";
       var targetPath = $scope.imgURI;
-
+      var d = new Date();
+      var da = d.getTime();
+      var date = timeConverter(da);
      // File name only
-     var filename = "image.jpg";
+     var filename = $scope.currentUser.account_id + "_" + date + ".jpg";
 
      var options = {
           fileKey: "file",
