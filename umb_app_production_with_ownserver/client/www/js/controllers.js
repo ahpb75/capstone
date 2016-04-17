@@ -80,25 +80,28 @@ angular.module('umb-hsa.controllers', [])
         };
 })
 
-.controller('DashCtrl', function($scope,Myuser,$location,Balance_history,$state) {
+.controller('DashCtrl', function($scope,Myuser,$location,Balance_history,$state,Account_info) {
         $scope.input = {};
         $scope.curbal = {};
         $scope.avabal = {};
+        $scope.profile = {};
         $scope.currentUser = Myuser.getCachedCurrent();
         $scope.addAccountid = function(){
           Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
-          // Myuser.logout({},$scope.currentUser.id);
-          // $location.path('login');
         };
+
         function getBalance() {
-      Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
-        console.dir(list[0].toJSON());
+          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
           $scope.curbal = list[0].toJSON().curr_balance;
           $scope.avabal = list[0].toJSON().avail_balance;
 
     });
-  }
-  getBalance();
+      }
+        getBalance();
+
+        $scope.ChangeProfile = function(){
+          Account_info.prototype$updateAttributes({account_id: $scope.input.account_id},{account_id: $scope.input.account_id,routing_number: $scope.input.routing_number,account_number:$scope.input.account_number,fname:$scope.input.fname,lname:$scope.input.lname,email:$scope.input.email,phone_number:$scope.input.phone_number,street_address:$scope.input.street_address,city:$scope.input.city,state:$scope.input.state,zipcode:$scope.input.zipcode});
+        };
 
     $scope.profile = function(){
       $state.go('tab.profile');
@@ -107,34 +110,45 @@ angular.module('umb-hsa.controllers', [])
     $scope.tax = function(){
       $state.go('tab.tax');
     }
-       
 })
 
 .controller('UsageCtrl',function($scope,$state){
- $scope.Graph7 = function(){
-    $state.go('tab.usageweekly1');
+ $scope.TransHisMon = function(){
+    $state.go('tab.transHisMon');
   };
-  $scope.Detail7 = function(){
-    $state.go('tab.usageweekly2');
+  $scope.ReimbHisMon = function(){
+    $state.go('tab.reimbHisMon');
   };
-  $scope.Graph30 = function(){
+  $scope.TransHisQua = function(){
     $state.go('tab.usagemonthly2');
   };
-  $scope.Detail30 = function(){
+  $scope.ReimbHisQua = function(){
     $state.go('tab.usagemonthly1');
   };
-  $scope.Graph365 = function(){
+  $scope.TransHisYear = function(){
     $state.go('tab.usageyearly2');
   };
-  $scope.Detail365 = function(){
+  $scope.ReimbHisYear = function(){
     $state.go('tab.usageyearly1');
   };
 
 })
 
-.controller('UsageDetailCtrlweekly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+.controller('transHisMonCtrl',function($scope,$state,$ionicPopup,Transactions,Myuser){
+  $scope.trans = [];
+  $scope.currentUser = Myuser.getCachedCurrent();
+  function getAllTrans() {
+    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+          $scope.trans.push(list[i]);
+    }
+    });
+  }
+  getAllTrans();
+})
 
-  $scope.claims = [];
+.controller('reimbHisMonCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+   $scope.claims = [];
     $scope.currentUser = Myuser.getCachedCurrent();
 
   function getAllClaims() {
@@ -150,7 +164,13 @@ angular.module('umb-hsa.controllers', [])
   }
   getAllClaims();
 
+  $scope.viewGraph = function(){
+    $state.go('tab.usagemonthly2');
+  }
 })
+
+
+
 
 .controller('UsageDetailCtrlmonthly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
   $scope.claims = [];

@@ -88,22 +88,22 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       }
     })
 
-  .state('tab.usageweekly1',{
-    url:'/weeklyusage',
+  .state('tab.transHisMon',{
+    url:'/transHisMon',
     views:{
       'tab-usage':{
-        templateUrl:'templates/weeklyusage1.html',
-        controller:'ExampleController'
+        templateUrl:'templates/transHisMon.html',
+        controller:'transHisMonCtrl'
       }
     }
   })
 
-  .state('tab.usageweekly2',{
-    url:'/weeklyusage',
+  .state('tab.reimbHisMon',{
+    url:'/reimbHisMon',
     views:{
       'tab-usage':{
-        templateUrl:'templates/weeklyusage2.html',
-        controller:'UsageDetailCtrlweekly'
+        templateUrl:'templates/reimbHisMon.html',
+        controller:'reimbHisMonCtrl'
       }
     }
   })
