@@ -84,7 +84,7 @@ angular.module('umb-hsa.controllers', [])
         $scope.input = {};
         $scope.curbal = {};
         $scope.avabal = {};
-        $scope.profile = {};
+        $scope.profile1 = {};
         $scope.currentUser = Myuser.getCachedCurrent();
         $scope.addAccountid = function(){
           Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
@@ -95,13 +95,25 @@ angular.module('umb-hsa.controllers', [])
           $scope.curbal = list[0].toJSON().curr_balance;
           $scope.avabal = list[0].toJSON().avail_balance;
 
-    });
-      }
+          });
+         }
+
+         function getProfile(){
+          Account_info.find({filter:{where:{ id:$scope.currentUser.account_id}}},function(list){
+            $scope.profile1 = list[0].toJSON();
+            $scope.input = list[0].toJSON();
+          });
+         }
+
         getBalance();
+        getProfile();
 
         $scope.ChangeProfile = function(){
-          Account_info.prototype$updateAttributes({account_id: $scope.input.account_id},{account_id: $scope.input.account_id,routing_number: $scope.input.routing_number,account_number:$scope.input.account_number,fname:$scope.input.fname,lname:$scope.input.lname,email:$scope.input.email,phone_number:$scope.input.phone_number,street_address:$scope.input.street_address,city:$scope.input.city,state:$scope.input.state,zipcode:$scope.input.zipcode});
+          Account_info.prototype$updateAttributes({id: $scope.currentUser.account_id},{routing_number: $scope.input.routing_number,account_number:$scope.input.account_number,fname:$scope.input.fname,lname:$scope.input.lname,email:$scope.input.email,phone_number:$scope.input.phone_number,street_address:$scope.input.street_address,city:$scope.input.city,state:$scope.input.state,zipcode:$scope.input.zipcode});
+          getProfile();
+          $state.go($state.current, {}, {reload: true});
         };
+
 
     $scope.profile = function(){
       $state.go('tab.profile');
@@ -250,6 +262,9 @@ angular.module('umb-hsa.controllers', [])
   $scope.newClaim = function(){
     $state.go('tab.newClaim');
   };
+  $scope.newTransactions = function(){
+    $state.go('tab.newTransaction');
+  }
 
 })
 
@@ -305,6 +320,20 @@ angular.module('umb-hsa.controllers', [])
     ];
 
 })
+
+.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser) {
+  $scope.input = {};
+  $scope.currentUser = Myuser.getCachedCurrent();
+  $scope.currDate = new Date();
+  $scope.addTransaction = function(){
+    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount};
+    Transactions.create($scope.newTransaction);
+    var alertPopup = $ionicPopup.alert({title: 'Transaction Fired!', template: 'Go Claim it'});
+    $state.go('tab.claim');
+  }
+})
+
+
 .controller("NewClaimCtrl", function ($scope, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser) {
 
 $scope.claims = [];

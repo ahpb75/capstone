@@ -155,6 +155,16 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   })
 
+   .state('tab.newTransaction',{
+    url:'/newTransaction',
+    views:{
+      'tab-claim':{
+        templateUrl:'templates/newTransactions.html',
+        controller: 'NewTransactionCtrl'
+      }
+    }
+  })
+
   .state('tab.newClaim',{
     url:'/newClaim',
     views:{
