@@ -84,7 +84,6 @@ angular.module('umb-hsa.controllers', [])
         $scope.input = {};
         $scope.curbal = {};
         $scope.avabal = {};
-        $scope.profile1 = {};
         $scope.currentUser = Myuser.getCachedCurrent();
         $scope.addAccountid = function(){
           Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
@@ -100,7 +99,6 @@ angular.module('umb-hsa.controllers', [])
 
          function getProfile(){
           Account_info.find({filter:{where:{ id:$scope.currentUser.account_id}}},function(list){
-            $scope.profile1 = list[0].toJSON();
             $scope.input = list[0].toJSON();
           });
          }
@@ -109,7 +107,7 @@ angular.module('umb-hsa.controllers', [])
         getProfile();
 
         $scope.ChangeProfile = function(){
-          Account_info.prototype$updateAttributes({id: $scope.currentUser.account_id},{routing_number: $scope.input.routing_number,account_number:$scope.input.account_number,fname:$scope.input.fname,lname:$scope.input.lname,email:$scope.input.email,phone_number:$scope.input.phone_number,street_address:$scope.input.street_address,city:$scope.input.city,state:$scope.input.state,zipcode:$scope.input.zipcode});
+          Account_info.prototype$updateAttributes({id: $scope.currentUser.account_id},{routing_number: $scope.input.routing_number,account_number:$scope.input.account_number,first_name:$scope.input.first_name,last_name:$scope.input.last_name,email:$scope.input.email,phone:$scope.input.phone,street_address:$scope.input.street_address,city:$scope.input.city,country:$scope.input.country,zipcode:$scope.input.zipcode});
           getProfile();
           $state.go($state.current, {}, {reload: true});
         };
@@ -132,16 +130,16 @@ angular.module('umb-hsa.controllers', [])
     $state.go('tab.reimbHisMon');
   };
   $scope.TransHisQua = function(){
-    $state.go('tab.usagemonthly2');
+    $state.go('tab.transHisQua');
   };
   $scope.ReimbHisQua = function(){
-    $state.go('tab.usagemonthly1');
+    $state.go('tab.reimbHisQua');
   };
   $scope.TransHisYear = function(){
-    $state.go('tab.usageyearly2');
+    $state.go('tab.transHisYearly');
   };
   $scope.ReimbHisYear = function(){
-    $state.go('tab.usageyearly1');
+    $state.go('tab.reimbHisYearly');
   };
 
 })
@@ -153,7 +151,10 @@ angular.module('umb-hsa.controllers', [])
   function getAllTrans() {
     Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
+         if(new Date(list[i].toJSON().trans_date).getMonth() == new Date().getMonth())
+        {
           $scope.trans.push(list[i]);
+        }
     }
     });
   }
@@ -164,18 +165,6 @@ angular.module('umb-hsa.controllers', [])
       var t = list[0].toJSON();
       var d = (new Date(list[0].toJSON().trans_date)).toDateString();
       $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+t.trans_name+"<br><strong>Transaction Category : </strong><br>"+t.trans_category+"<br><strong>Provider Name : </strong><br>"+t.provider_name+"<br><strong>Note : </strong><br>"+t.note+"<br><strong>Amount : </strong><br>"+t.amount+"<br><strong>Transaction Image : </strong><br>"+t.trans_image;
-      // var alertPopup = $ionicPopup.confirm({
-      //           title: $scope.message,
-      //           template: "Do you want to claim it ?"
-      //       });
-      // alertPopup.then(function(res){
-      //   if(res){
-      //     dataService.addTransaction(i);
-      //     $state.go('tab.newClaim');
-      //   }
-      //     else{
-      //     }
-      // })
  var alertPopup = $ionicPopup.alert({
                 title: "Details",
                 template: $scope.message
@@ -220,7 +209,7 @@ angular.module('umb-hsa.controllers', [])
 
 })
 
-.controller('reimbHisMonCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+.controller('reimbHisMonCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim,Transactions){
    $scope.claims = [];
     $scope.currentUser = Myuser.getCachedCurrent();
 
@@ -238,14 +227,61 @@ angular.module('umb-hsa.controllers', [])
   getAllClaims();
 
   $scope.viewGraph = function(){
-    $state.go('tab.usagemonthly2');
+    $state.go('tab.usageyearly2');
   }
 })
 
 
+.controller('transHisQuaCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim,Transactions){
+  $scope.claims = [];
+  $scope.temp = [];
+  $scope.currentUser = Myuser.getCachedCurrent();
+  $scope.count = 1;
+
+  function getAllClaims() {
+    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().trans_date).getMonth() < 3)
+        {
+          $scope.temp.push(list[i]);
+        }
+    }
+      $scope.claims.push($scope.temp);
+      $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().trans_date).getMonth() < 6 && new Date(list[i].toJSON().trans_date).getMonth() >=3 )
+        {
+          $scope.temp.push(list[i]);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().trans_date).getMonth() < 9 && new Date(list[i].toJSON().trans_date).getMonth() >=6)
+        {
+          $scope.temp.push(list[i]);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
+       for(i=0; i<list.length;i++){
+        if(new Date(list[i].toJSON().trans_date).getMonth() < 12 && new Date(list[i].toJSON().trans_date).getMonth() >=9)
+        {
+          $scope.temp.push(list[i]);
+        }
+    }
+      $scope.claims.push($scope.temp);
+            $scope.temp = [];
+    });
+
+  }
+  getAllClaims();
+
+})
 
 
-.controller('UsageDetailCtrlmonthly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+
+.controller('reimbHisQuaCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
   $scope.claims = [];
   $scope.temp = [];
   $scope.currentUser = Myuser.getCachedCurrent();
@@ -290,30 +326,63 @@ angular.module('umb-hsa.controllers', [])
       $scope.claims.push($scope.temp);
             $scope.temp = [];
     });
-    console.dir($scope.claims);
   }
   getAllClaims();
+   $scope.viewGraph = function(){
+    $state.go('tab.usageyearly2');
+  }
 
 })
 
-.controller('UsageDetailCtrlyearly',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
-  $scope.claims = [];
+.controller('transHisYearlyCtrl',function($scope,$state,$ionicPopup,Transactions,Myuser,dataService){
+  $scope.trans = [];
+  $scope.message = {};
   $scope.currentUser = Myuser.getCachedCurrent();
+  function getAllTrans() {
+    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+        
+          $scope.trans.push(list[i]);
+
+    }
+    });
+  }
+  getAllTrans();
+
+  $scope.show = function(i){
+    Transactions.find({filter:{where:{trans_id : i}}},function(list){
+      var t = list[0].toJSON();
+      var d = (new Date(list[0].toJSON().trans_date)).toDateString();
+      $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+t.trans_name+"<br><strong>Transaction Category : </strong><br>"+t.trans_category+"<br><strong>Provider Name : </strong><br>"+t.provider_name+"<br><strong>Note : </strong><br>"+t.note+"<br><strong>Amount : </strong><br>"+t.amount+"<br><strong>Transaction Image : </strong><br>"+t.trans_image;
+ var alertPopup = $ionicPopup.alert({
+                title: "Details",
+                template: $scope.message
+            });    })
+  }
+
+})
+
+.controller('reimbHisYearlyCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim,Transactions){
+   $scope.claims = [];
+    $scope.currentUser = Myuser.getCachedCurrent();
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
+        
           var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
-
-      //   list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
-      // $scope.claims.push(list[i].toJSON());
+        
     }
     });
   }
   getAllClaims();
 
+  $scope.viewGraph = function(){
+    $state.go('tab.usageyearly2');
+  }
 })
+
 
 .controller('ClaimCtrl', function($scope,$state) {
   $scope.viewClaim = function(){

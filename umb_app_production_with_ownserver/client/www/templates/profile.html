@@ -5,47 +5,47 @@
         <div class="list">
             <label class="item ">
                 <span class="input-label">Account ID</span>
-                <span> {{input.account_id}}</span>
+                <span> {{input.id}}</span>
             </label>
             <label class="item item-input ">
                 <span class="input-label">Routing Number</span>
-                <input type="text" placeholder={{profile1.routing_number}} ng-model="input.routing_number">
+                <input type="text"  ng-model="input.routing_number">
             </label>
             <label class="item item-input ">
                 <span class="input-label">Account Number</span>
-                <input type="text" placeholder={{profile1.account_number}} ng-model="input.account_number">
+                <input type="text"  ng-model="input.account_number">
             </label>
             <label class="item item-input ">
                 <span class="input-label">First Name</span>
-                <input type="text" placeholder={{profile1.fname}} ng-model="input.fname">
+                <input type="text"  ng-model="input.first_name">
             </label>
             <label class="item item-input">
                 <span class="input-label">Last Name</span>
-                <input type="text" placeholder={{profile1.lname}} ng-model="input.lname">
+                <input type="text"  ng-model="input.last_name">
             </label>
             <label class="item item-input">
                 <span class="input-label">Email</span>
-                <input type="text" placeholder={{profile1.email}} ng-model="input.email">
+                <input type="text"  ng-model="input.email">
             </label>
             <label class="item item-input">
                 <span class="input-label">Phone Number</span>
-                <input type="text" placeholder={{profile1.phone_number}} ng-model="input.phone_number">
+                <input type="text"  ng-model="input.phone">
             </label>
             <label class="item item-input">
                 <span class="input-label">Street Address</span>
-                <input type="text" placeholder={{profile1.street_address}} ng-model="input.street_address">
+                <input type="text"  ng-model="input.street_address">
             </label>
             <label class="item item-input">
                 <span class="input-label">City</span>
-                <input type="text" placeholder={{profile1.city}} ng-model="input.city">
+                <input type="text" ng-model="input.city">
             </label>
             <label class="item item-input">
-                <span class="input-label">State</span>
-                <input type="text" placeholder={{profile1.state}} ng-model="input.state">
+                <span class="input-label">Country</span>
+                <input type="text" ng-model="input.country">
             </label>
             <label class="item item-input">
                 <span class="input-label">Zipcode</span>
-                <input type="text" placeholder={{profile1.zipcode}} ng-model="input.zipcode">
+                <input type="text" ng-model="input.zipcode">
             </label>
         </div>
         <button type ="submit"class="button button-block button-positive" ng-click="ChangeProfile()">

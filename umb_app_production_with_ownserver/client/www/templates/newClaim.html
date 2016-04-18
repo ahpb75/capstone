@@ -4,8 +4,10 @@
     </ion-nav-title>
     <ion-content class="padding">
         <div class="list">
-           <p> Transaction ID</p>
-           <p>{{trans_id}}</p>
+          <label class="item ">
+                <span class="input-label">Transaction ID</span>
+                <span> {{trans_id}}</span>
+            </label>
             <label class="item item-input ">
                 <span class="input-label">Date of Expense</span>
                 <input type="text" placeholder="01/11/1990" ng-model="input.date_of_expense">
