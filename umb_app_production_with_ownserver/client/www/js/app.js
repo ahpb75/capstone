@@ -165,6 +165,16 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   })
 
+   .state('tab.chooseTrans',{
+    url:'/chooseTrans',
+    views:{
+      'tab-claim':{
+        templateUrl:'templates/transHisMon.html',
+        controller:'transHisMonCtrl2'
+      }
+    }
+   })
+
   .state('tab.newClaim',{
     url:'/newClaim',
     views:{

@@ -146,8 +146,9 @@ angular.module('umb-hsa.controllers', [])
 
 })
 
-.controller('transHisMonCtrl',function($scope,$state,$ionicPopup,Transactions,Myuser){
+.controller('transHisMonCtrl',function($scope,$state,$ionicPopup,Transactions,Myuser,dataService){
   $scope.trans = [];
+  $scope.message = {};
   $scope.currentUser = Myuser.getCachedCurrent();
   function getAllTrans() {
     Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
@@ -157,6 +158,66 @@ angular.module('umb-hsa.controllers', [])
     });
   }
   getAllTrans();
+
+  $scope.show = function(i){
+    Transactions.find({filter:{where:{trans_id : i}}},function(list){
+      var t = list[0].toJSON();
+      var d = (new Date(list[0].toJSON().trans_date)).toDateString();
+      $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+t.trans_name+"<br><strong>Transaction Category : </strong><br>"+t.trans_category+"<br><strong>Provider Name : </strong><br>"+t.provider_name+"<br><strong>Note : </strong><br>"+t.note+"<br><strong>Amount : </strong><br>"+t.amount+"<br><strong>Transaction Image : </strong><br>"+t.trans_image;
+      // var alertPopup = $ionicPopup.confirm({
+      //           title: $scope.message,
+      //           template: "Do you want to claim it ?"
+      //       });
+      // alertPopup.then(function(res){
+      //   if(res){
+      //     dataService.addTransaction(i);
+      //     $state.go('tab.newClaim');
+      //   }
+      //     else{
+      //     }
+      // })
+ var alertPopup = $ionicPopup.alert({
+                title: "Details",
+                template: $scope.message
+            });    })
+  }
+
+})
+
+.controller('transHisMonCtrl2',function($scope,$state,$ionicPopup,Transactions,Myuser,dataService){
+  $scope.trans = [];
+  $scope.message = {};
+  $scope.currentUser = Myuser.getCachedCurrent();
+  function getAllTrans() {
+    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+          $scope.trans.push(list[i]);
+    }
+    });
+  }
+  getAllTrans();
+
+  $scope.show = function(i){
+    Transactions.find({filter:{where:{trans_id : i}}},function(list){
+      var t = list[0].toJSON();
+      var d = (new Date(list[0].toJSON().trans_date)).toDateString();
+      $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+t.trans_name+"<br><strong>Transaction Category : </strong><br>"+t.trans_category+"<br><strong>Provider Name : </strong><br>"+t.provider_name+"<br><strong>Note : </strong><br>"+t.note+"<br><strong>Amount : </strong><br>"+t.amount+"<br><strong>Transaction Image : </strong><br>"+t.trans_image;
+      var alertPopup = $ionicPopup.confirm({
+                title: $scope.message,
+                template: "Do you want to claim it ?"
+            });
+      alertPopup.then(function(res){
+        if(res){
+          dataService.addTransaction(i);
+          $state.go('tab.newClaim');
+        }
+          else{
+          }
+      })
+   
+})
+  }
+
 })
 
 .controller('reimbHisMonCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
@@ -260,7 +321,7 @@ angular.module('umb-hsa.controllers', [])
   };
 
   $scope.newClaim = function(){
-    $state.go('tab.newClaim');
+    $state.go('tab.chooseTrans');
   };
   $scope.newTransactions = function(){
     $state.go('tab.newTransaction');
@@ -334,15 +395,16 @@ angular.module('umb-hsa.controllers', [])
 })
 
 
-.controller("NewClaimCtrl", function ($scope, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser) {
+.controller("NewClaimCtrl", function ($scope, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService) {
 
 $scope.claims = [];
   $scope.input = {};
+  $scope.trans_id = dataService.getTransaction();
   $scope.currentUser = Myuser.getCachedCurrent();
 
       $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.total_reimbursement,"status":"Processing","description":$scope.input.description};
+    $scope.newClaim = {"trans_id":$scope.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.total_reimbursement,"status":"Processing","description":$scope.input.description};
     console.dir($scope.newClaim);
     Reimburse_claim.create($scope.newClaim);
     var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});

@@ -1,33 +1,26 @@
-<!-- <ion-view view-title="Weeklyusage">
-=======
-<ion-view view-title="Weeklyusage"  class="class-white">
->>>>>>> d1f82818fdcfa17e824156cdf6778e83e2bd14d5:umb_app_production_with_ownserver/client/www/templates/weeklyusage1.html
-  <ion-content class="padding">
-
-<div class="card">
-        <div class="item item-divider">
-            A line chart
-        </div>
-        <div class="item item-text-wrap">
-            <canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
-        </div>
-    </div>
-    <div class="card">
-        <div class="item item-divider">
-            A bar chart
-        </div>
-        <div class="item item-text-wrap">
-            <canvas id="bar" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
-        </div>
-    </div>
-    
-  </ion-content>
-</ion-view>
- -->
-
  <ion-view view-title="Transction History">
  <ion-content class="padding">
-
-        {{trans}}
+    <ion-list>
+    <ion-item ng-repeat="item in trans">
+    <div class="card" ng-click="show(item.trans_id)">
+    <ion-item>
+    <div class="item item-divider">
+    Note :
+    </div>
+    <div class="item item-text-wrap">
+    {{item.note}}
+    </div>
+    </ion-item>
+     <ion-item>
+    <div class="item item-divider">
+    Amount :
+    </div>
+    <div class="item item-text-wrap">
+    {{item.amount}}
+    </div>
+    </ion-item>
+    </div>
+    </ion-item>
+    </ion-list>        
  </ion-content>
  </ion-view>
