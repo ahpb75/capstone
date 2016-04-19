@@ -104,6 +104,7 @@ $state.go('tab.dash', {}, {reload: true});
       $http.get('#')
      .success(function() {
       getBalance();
+      getProfile();
      })
      .finally(function() {
        // Stop the ion-refresher from spinning
@@ -513,7 +514,7 @@ getBalance();
 
       $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description};
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
     Reimburse_claim.create($scope.newClaim);
     Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
     $scope.curbal = $scope.curbal - $scope.input.amount;
