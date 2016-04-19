@@ -140,7 +140,7 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     url:'/reimbHisYearly',
     views:{
       'tab-usage':{
-        templateUrl:'templates/reimbHisMon.html',
+        templateUrl:'templates/reimbHisYearly.html',
         controller:'reimbHisYearlyCtrl'
       }
     }

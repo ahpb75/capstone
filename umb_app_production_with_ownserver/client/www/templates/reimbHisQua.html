@@ -2,7 +2,7 @@
 <ion-view view-title="Quarterly Usage History"  class="class-white">
   <ion-content class="padding">
 
-  <button class="button button-block button-positive" ng-click="viewGraph()">
+  <!-- <button class="button button-block button-positive" ng-click="viewGraph()">
             View Graph Visulazation
         </button>
     <ion-list >
@@ -27,6 +27,23 @@
         
           </ion-item>
       </ion-item>
-    </ion-list>
+    </ion-list> -->
+    <ion-item ng-repeat="item in claims">
+    Quater {{$index+1}} Report
+<table style="width: 100%;" orderby:>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Date of Expense</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Reimbursement</th>
+<tr ng-repeat="i in item">
+<td ng-repeat="(key,value) in i" ng-if="$even" >{{ value }}</td>
+<td ng-repeat="(key,value) in i" ng-if="$odd" >${{ value }}</td>
+</tr>
+</table>
+</ion-item>
+
+
+ <button class="button button-block button-positive" ng-click="viewGraph()">
+            View Graph Visulazation
+        </button>
+
+
   </ion-content>
 </ion-view>
