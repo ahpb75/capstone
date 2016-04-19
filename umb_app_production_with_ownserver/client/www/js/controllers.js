@@ -1,5 +1,23 @@
 angular.module('umb-hsa.controllers', [])
 
+.controller('TabCtrl',function($scope,$state,$window){
+
+ $scope.home = function(){
+
+$state.go('tab.dash', {}, {reload: true});
+       // $window.location.reload(true);
+
+  };
+
+  $scope.activity = function(){
+    $state.go('tab.usage');
+  };
+  $scope.claim = function(){
+
+    $state.go('tab.claim');
+  }
+})
+
 .controller('LoginCtrl', function($scope, $ionicPopup, $state, $location, Myuser){
 
     $scope.credentials = {};
@@ -80,22 +98,36 @@ angular.module('umb-hsa.controllers', [])
         };
 })
 
-.controller('DashCtrl', function($scope,Myuser,$location,Balance_history,$state,Account_info) {
+.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService) {
+       
+       $scope.doRefresh = function() {
+      $http.get('#')
+     .success(function() {
+      getBalance();
+     })
+     .finally(function() {
+       // Stop the ion-refresher from spinning
+       $scope.$broadcast('scroll.refreshComplete');
+     });
+       };
+
+       function getBalance() {
+          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+          var temp = list[0].toJSON().curr_balance;
+          dataService.addBalance(temp);
+                  $scope.curbal = dataService.getBalance();
+        $scope.avabal = dataService.getBalance();
+
+          });
+         }
+                 getBalance();
         $scope.input = {};
-        $scope.curbal = {};
-        $scope.avabal = {};
         $scope.currentUser = Myuser.getCachedCurrent();
         $scope.addAccountid = function(){
           Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
         };
 
-        function getBalance() {
-          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
-          $scope.curbal = list[0].toJSON().curr_balance;
-          $scope.avabal = list[0].toJSON().avail_balance;
-
-          });
-         }
+        
 
          function getProfile(){
           Account_info.find({filter:{where:{ id:$scope.currentUser.account_id}}},function(list){
@@ -103,7 +135,6 @@ angular.module('umb-hsa.controllers', [])
           });
          }
 
-        getBalance();
         getProfile();
 
         $scope.ChangeProfile = function(){
@@ -175,10 +206,11 @@ angular.module('umb-hsa.controllers', [])
 
 .controller('transHisMonCtrl2',function($scope,$state,$ionicPopup,Transactions,Myuser,dataService){
   $scope.trans = [];
+  $scope.t = {};
   $scope.message = {};
   $scope.currentUser = Myuser.getCachedCurrent();
   function getAllTrans() {
-    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+    Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id,Processed:false}}},function(list){
       for(i=0; i<list.length;i++){
           $scope.trans.push(list[i]);
     }
@@ -188,16 +220,16 @@ angular.module('umb-hsa.controllers', [])
 
   $scope.show = function(i){
     Transactions.find({filter:{where:{trans_id : i}}},function(list){
-      var t = list[0].toJSON();
+       $scope.t = list[0].toJSON();
       var d = (new Date(list[0].toJSON().trans_date)).toDateString();
-      $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+t.trans_name+"<br><strong>Transaction Category : </strong><br>"+t.trans_category+"<br><strong>Provider Name : </strong><br>"+t.provider_name+"<br><strong>Note : </strong><br>"+t.note+"<br><strong>Amount : </strong><br>"+t.amount+"<br><strong>Transaction Image : </strong><br>"+t.trans_image;
+      $scope.message = "<strong>Date of Expense : </strong><br>"+d+"<br><strong>Transaction Name : </strong><br>"+$scope.t.trans_name+"<br><strong>Transaction Category : </strong><br>"+$scope.t.trans_category+"<br><strong>Provider Name : </strong><br>"+$scope.t.provider_name+"<br><strong>Note : </strong><br>"+$scope.t.note+"<br><strong>Amount : </strong><br>"+$scope.t.amount+"<br><strong>Transaction Image : </strong><br>"+$scope.t.trans_image;
       var alertPopup = $ionicPopup.confirm({
                 title: $scope.message,
                 template: "Do you want to claim it ?"
             });
       alertPopup.then(function(res){
         if(res){
-          dataService.addTransaction(i);
+          dataService.addTransaction($scope.t);
           $state.go('tab.newClaim');
         }
           else{
@@ -415,7 +447,6 @@ angular.module('umb-hsa.controllers', [])
     });
 
   }
-  console.dir($scope.claims);
 
 
    $scope.show = function (i1,i2,i3,i4,i5) {
@@ -456,7 +487,7 @@ angular.module('umb-hsa.controllers', [])
   $scope.currentUser = Myuser.getCachedCurrent();
   $scope.currDate = new Date();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount};
+    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Fired!', template: 'Go Claim it'});
     $state.go('tab.claim');
@@ -464,18 +495,31 @@ angular.module('umb-hsa.controllers', [])
 })
 
 
-.controller("NewClaimCtrl", function ($scope, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService) {
+.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService) {
 
 $scope.claims = [];
-  $scope.input = {};
-  $scope.trans_id = dataService.getTransaction();
+  $scope.input = dataService.getTransaction();
+  $scope.input.trans_date = (new Date($scope.input.trans_date)).toDateString();
   $scope.currentUser = Myuser.getCachedCurrent();
+    $scope.curbal = dataService.getBalance();
+        $scope.avabal = dataService.getBalance();
+        $scope.bal = {};
+function getBalance() {
+          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+          $scope.bal = list[0].toJSON().id;
+          });
+         }
+getBalance();
 
       $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.total_reimbursement,"status":"Processing","description":$scope.input.description};
-    console.dir($scope.newClaim);
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description};
     Reimburse_claim.create($scope.newClaim);
+    Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
+    $scope.curbal = $scope.curbal - $scope.input.amount;
+        $scope.avabal = $scope.avabal - $scope.input.amount;
+        dataService.addBalance($scope.curbal);
+    Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
     var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
     $state.go('tab.claim');
 

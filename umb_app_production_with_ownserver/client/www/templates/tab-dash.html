@@ -1,5 +1,11 @@
 <ion-view view-title="Home" class="class-white">
   <ion-content class="padding">
+
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
     <center><h2 class="class-white">Welcome back!</h2></center>
 
         <div class="card">
