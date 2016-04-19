@@ -43,7 +43,8 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    controller:'TabCtrl'
   })
 
   // Each tab has its own nav history stack:
@@ -108,30 +109,39 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   })
 
-.state('tab.usagemonthly1',{
-    url:'/monthlyusage',
+.state('tab.transHisQua',{
+    url:'/transHisQua',
     views:{
       'tab-usage':{
-        templateUrl:'templates/monthlyusage1.html',
-        controller:'UsageDetailCtrlmonthly'
+        templateUrl:'templates/transHisQua.html',
+        controller:'transHisQuaCtrl'
       }
     }
   })
-.state('tab.usagemonthly2',{
-    url:'/weeklyusage',
+.state('tab.reimbHisQua',{
+    url:'/reimbHisQua',
     views:{
       'tab-usage':{
-        templateUrl:'templates/monthlyusage2.html',
-        controller:'ExampleController'
+        templateUrl:'templates/reimbHisQua.html',
+        controller:'reimbHisQuaCtrl'
       }
     }
   })
-  .state('tab.usageyearly1',{
-    url:'/yearlyusage',
+ .state('tab.transHisYearly',{
+    url:'/transHisYearly',
     views:{
       'tab-usage':{
-        templateUrl:'templates/yearlyusage1.html',
-        controller:'UsageDetailCtrlyearly'
+        templateUrl:'templates/transHisMon.html',
+        controller:'transHisYearlyCtrl'
+      }
+    }
+  })
+.state('tab.reimbHisYearly',{
+    url:'/reimbHisYearly',
+    views:{
+      'tab-usage':{
+        templateUrl:'templates/reimbHisYearly.html',
+        controller:'reimbHisYearlyCtrl'
       }
     }
   })
@@ -154,6 +164,26 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       }
     }
   })
+
+   .state('tab.newTransaction',{
+    url:'/newTransaction',
+    views:{
+      'tab-claim':{
+        templateUrl:'templates/newTransactions.html',
+        controller: 'NewTransactionCtrl'
+      }
+    }
+  })
+
+   .state('tab.chooseTrans',{
+    url:'/chooseTrans',
+    views:{
+      'tab-claim':{
+        templateUrl:'templates/transHisMon.html',
+        controller:'transHisMonCtrl2'
+      }
+    }
+   })
 
   .state('tab.newClaim',{
     url:'/newClaim',

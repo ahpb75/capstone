@@ -1,7 +1,13 @@
 <ion-view view-title="Home" class="class-white">
   <ion-content class="padding">
-    <center><h2 class="class-white">Welcome back!</h2></center>
 
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+    <center><h2 class="class-white">Welcome back!</h2></center>
+    <center><h3 class="class-white">{{input.first_name}} {{input.last_name}}</h3></center>
         <div class="card">
           <!--<ion-item >-->
           <div class="item item-divider">
