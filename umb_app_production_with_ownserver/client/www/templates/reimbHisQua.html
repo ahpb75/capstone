@@ -31,7 +31,7 @@
     <ion-item ng-repeat="item in claims">
     <center>Quater {{$index+1}} Report</center>
 <table style="width: 100%;" orderby:>
-<th style="background-color: #0085ff; color: white; font-size:16pt;">Date of Expense</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Reimbursement</th>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
 <tr ng-repeat="i in item">
 <td ng-repeat="(key,value) in i" ng-if="$even" >{{ value }}</td>
 <td ng-repeat="(key,value) in i" ng-if="$odd" >${{ value }}</td>
@@ -41,7 +41,7 @@
 
 
  <button class="button button-block button-positive" ng-click="viewGraph()">
-            View Graph Visulazation
+            View Graph Visualization
         </button>
 
 
