@@ -102,7 +102,7 @@ $state.go('tab.dash', {}, {reload: true});
 })
 
 .controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService) {
-       
+
        $scope.doRefresh = function() {
       $http.get('#')
      .success(function() {
@@ -131,7 +131,7 @@ $state.go('tab.dash', {}, {reload: true});
           Myuser.prototype$updateAttributes({ id: $scope.currentUser.id }, { account_id: $scope.input.accountid });
         };
 
-        
+
 
          function getProfile(){
           Account_info.find({filter:{where:{ id:$scope.currentUser.account_id}}},function(list){
@@ -239,7 +239,7 @@ $state.go('tab.dash', {}, {reload: true});
           else{
           }
       })
-   
+
 })
   }
 
@@ -377,7 +377,7 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllTrans() {
     Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        
+
           $scope.trans.push(list[i]);
 
     }
@@ -405,10 +405,10 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        
+
           var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
-        
+
     }
     });
   }
@@ -604,9 +604,10 @@ $scope.uploadImage = function(imageData){
       var targetPath = $scope.imgURI;
       var d = new Date();
       var da = d.getTime();
-      var date = timeConverter(da);
-     // File name only
-     var filename = $scope.currentUser.account_id + "_" + date + ".jpg";
+      var conver_date = new Date(da);
+      var string_date = String(conver_date);
+      var date_final = string_date.replace(/\s+/g, '-');
+     var filename = $scope.currentUser.account_id + "_" + date_final + ".jpg";
 
      var options = {
           fileKey: "file",
@@ -707,7 +708,7 @@ getBalance();
     $state.go('tab.claim');
 
   }
-               
+
   })
 
 ;
