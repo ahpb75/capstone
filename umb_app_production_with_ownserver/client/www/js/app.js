@@ -79,6 +79,16 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
   })
 
+  .state('tab.bal_hist',{
+    url:'/bal_hist',
+    views:{
+      'tab-dash':{
+        templateUrl:'templates/bal_hist.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
   .state('tab.usage', {
       url: '/usage',
       views: {

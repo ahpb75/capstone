@@ -101,7 +101,9 @@ $state.go('tab.dash', {}, {reload: true});
         };
 })
 
-.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService) {
+.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService,Bal_history) {
+       
+       $scope.bal_hists = {};
        
        $scope.doRefresh = function() {
       $http.get('#')
@@ -147,6 +149,12 @@ $state.go('tab.dash', {}, {reload: true});
           $state.go($state.current, {}, {reload: true});
         };
 
+        function getBal_hist(){
+          Bal_history.find({filter:{where:{account_id:$scope.currentUser.account_id}}},function(list){
+            $scope.bal_hists = list[0].toJSON();
+          })
+        }
+        getBal_hist();
 
     $scope.profile = function(){
       $state.go('tab.profile');
@@ -154,6 +162,10 @@ $state.go('tab.dash', {}, {reload: true});
 
     $scope.tax = function(){
       $state.go('tab.tax');
+    }
+
+    $scope.bal_hist = function(){
+      $state.go('tab.bal_hist');
     }
 })
 
@@ -678,7 +690,7 @@ $scope.uploadImage = function(imageData){
 )
 
 
-.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService) {
+.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService,Bal_history) {
 
 $scope.claims = [];
   $scope.input = dataService.getTransaction();
@@ -703,6 +715,8 @@ getBalance();
         $scope.avabal = $scope.avabal - $scope.input.amount;
         dataService.addBalance($scope.curbal);
     Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
+    $scope.track = {"date":$scope.currDate,"account_id":$scope.currentUser.account_id,"trans_id":$scope.input.trans_id,"amount":$scope.input.amount,"note":$scope.input.description};
+    Bal_history.create($scope.track);
     var alertPopup = $ionicPopup.alert({title: 'Claim Sent!', template: 'View it in details!'});
     $state.go('tab.claim');
 
