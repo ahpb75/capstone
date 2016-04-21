@@ -2,11 +2,9 @@
 <ion-view view-title="Quarterly Usage History"  class="class-white">
   <ion-content class="padding">
 
-    <ion-list >
       <ion-item ng-repeat="item in claims">
-      Quater {{$index+1}} Report
-      <ion-item ng-repeat="i in item">
-        <div class="card">
+      <center><span>Quater {{$index+1}} Report</span></center>
+        <div ng-repeat="i in item" class="card">
           <ion-item>
     <div class="item item-divider">
     Note :
@@ -18,14 +16,10 @@
      <ion-item>
     <div class="item item-divider">
     Amount :
-    </div>
-    <div class="item item-text-wrap">
     {{i.amount}}
     </div>
     </ion-item>
         </div>
-          </ion-item>
       </ion-item>
-    </ion-list>
   </ion-content>
 </ion-view>
