@@ -1,48 +1,61 @@
-<ion-view view-title="Home">
+<ion-view view-title="Home" class="class-white">
   <ion-content class="padding">
-    <h2>Welcome to UMB_HSA</h2>
 
-        <div class="card">
-          <ion-item >
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+    <center><h2 class="class-white">Welcome back!</h2></center>
+    <center><h4 class="class-white">{{input.first_name}} {{input.last_name}}</h3></center>
+    <div class="row">
+        <div class="card col">
+          <!--<ion-item >-->
           <div class="item item-divider">
-          Current Balance:
+          <center>Current Balance:</center>
+          </div>
+        <div class="item item-text-wrap">
+          <center>${{curbal}}</center>
+          
+          <!--</ion-item>-->
+        </div></div>
+        <div class="card col">
+        <!--  <ion-item >-->
+          <div class="item item-divider">
+          <center>Available Balance:</center>
           </div>
           <div class="item item-text-wrap">
-          ${{curbal}}
-          </div>
-          </ion-item>
-        </div>
-         <div class="card">
-          <ion-item >
-          <div class="item item-divider">
-          Available Balance:
-          </div>
-          <div class="item item-text-wrap">
-          ${{avabal}}
-          </div>
-          </ion-item>
-        </div>
+         <center> ${{avabal}}</center>
 
-<!--       <br><br>
-      For test purpose, You could change your account id here
-         <p> -- 56cf75c48f9f0c3ad718fa69</p>
-            <p>  -- 56cf75c48f9f0c3ad718fa6a </p>
-      <div class="item-input-inset">
-      <label class="item-input-wrapper">
-        <input type="text" placeholder="Account id" ng-model="input.accountid">
-      </label>
-      <button class="button button-balanced button-small" ng-click="addAccountid()">
-        Add
-      </button>
-    </div> -->
+          
+        <!--  </ion-item>-->
+       </div> </div>
+       </div>
+
     <div class="row">
     <div class="col">
-    <img src = "ionic.png" ng-click="profile()" class="center">
-    <span class="center">View Profile</span>
+    <img height= "132px" width = "132px" src = "Profilelogo.png" ng-click="profile()" class="center">
+    <center><span>View Profile</span></center>
+
     </div>
+    
     <div class="col">
-    <img src = "ionic.png" ng-click="tax()" class="center">
-    <p class="center">View Tax Info</p>
+<img src = "tax.gif" height="132px" width="132px" ng-click="tax()" class="center">
+    <center><p class="center">Tax Information</p></center>
+    
+    </div>
+    </div>
+     <div class="row">
+    <div class="col">
+    <img src = "promotion.gif" height="132px" width="132px" ng-click="profile()" class="center">
+    <center><span>New Promotion</span></center>
+
+    </div>
+    
+    <div class="col">
+<img src = "balance.png" height="132px" width="132px" ng-click="tax()" class="center">
+    <center><p class="center">Balance History</p></center>
+    
     </div>
     </div>
   </ion-content>

@@ -1,46 +1,33 @@
- <ion-view class="auth-view" cache-view="false">
+ <ion-view class="auth-view" cache-view="false"  class="class-white">
     <ion-nav-title>
         <span>New Claim</span>
     </ion-nav-title>
     <ion-content class="padding">
         <div class="list">
-            <label class="item item-input ">
-                <span class="input-label">Transaction_Id</span>
-                <input type="text" placeholder="111" ng-model="input.trans_id">
+          <label class="item ">
+                <span class="input-label">Transaction ID</span>
+                <span> {{input.trans_id}}</span>
             </label>
-            <label class="item item-input ">
+            <label class="item ">
                 <span class="input-label">Date of Expense</span>
-                <input type="text" placeholder="01/11/1990" ng-model="input.date_of_expense">
+                <span> {{input.trans_date}}</span>
             </label>
-            <label class="item item-input ">
+            <label class="item ">
+                <span class="input-label">Payment Method</span>
+                <span> {{input.payment_method}}</span>
+            </label>
+            <label class="item ">
+                <span class="input-label">Amount to Claim</span>
+                <span> {{input.amount}}</span>
+            </label>
+        
+             <label class="item item-input ">
                 <span class="input-label">Descripe Expenses</span>
                 <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.description">
-            </label>
-            <label class="item item-input ">
-                <span class="input-label">Payment_method</span>
-                <input type="text" placeholder="Visa" ng-model="input.payment_method">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Amount Claimed</span>
-                <input type="text" placeholder="100.50" ng-model="input.total_reimbursement">
             </label>
         </div>
         <button type ="submit"class="button button-block button-positive" ng-click="addClaim()">
             Submit
         </button>
-        <button class="button button-block button-positive" ng-click="takePhoto()">
-            Take Photo
-        </button>
-        <button class="button button-block button-positive" ng-click="choosePhoto()">
-            Choose Photo
-        </button>
-        <center>
-        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
-        <button class="button button-block button-assertive" ng-click="uploadImage()">
-            Process Photo
-        </button>
-        <div ng-controller="ExampleController">
-          <p>{{res}}</p>
-        </div>
     </ion-content>
 </ion-view>

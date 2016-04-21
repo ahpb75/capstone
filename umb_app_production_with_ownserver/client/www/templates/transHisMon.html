@@ -1,0 +1,21 @@
+ <ion-view view-title="Transction History">
+ <ion-content class="padding">
+ 
+    <div ng-repeat="item in trans" class="card" ng-click="show(item.trans_id)">
+    <ion-item>
+    <div class="item item-divider">
+    Note :
+    </div>
+    <div class="item item-text-wrap">
+    {{item.note}}
+    </div>
+    </ion-item>
+     <ion-item>
+    <div class="item item-divider">
+    Amount :    {{item.amount}}
+    </div>
+    </ion-item>
+    </div>
+
+ </ion-content>
+ </ion-view>
