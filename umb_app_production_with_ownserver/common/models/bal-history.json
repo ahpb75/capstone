@@ -1,0 +1,30 @@
+{
+  "name": "bal_history",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
