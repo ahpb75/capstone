@@ -1,6 +1,6 @@
 /* Empty. Add your own CSS if you like */
 #login-view{
-	background: url('../img/bg-img.jpg');
+    background: url('../img/bg-img.jpg');
 	align-content: center;
 	
 }
@@ -15,8 +15,39 @@
 .item-divider{
 	color: blue;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 .center {
     margin-left: auto;
     margin-right: auto;
     display: block;
+
+}
+
+.class-white{
+	color: black;
+}
+
+table, th , td {
+  
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #EDEDED;
+}
+table tr:nth-child(even) {
+  background-color: white;
 }

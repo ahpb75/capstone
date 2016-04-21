@@ -1,40 +1,61 @@
 <ion-view view-title="Home" class="class-white">
   <ion-content class="padding">
-    <center><h2 class="class-white">Welcome back!</h2></center>
 
-        <div class="card">
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+    <center><h2 class="class-white">Welcome back!</h2></center>
+    <center><h4 class="class-white">{{input.first_name}} {{input.last_name}}</h3></center>
+    <div class="row">
+        <div class="card col">
           <!--<ion-item >-->
           <div class="item item-divider">
-          Current Balance:
+          <center>Current Balance:</center>
           </div>
         <div class="item item-text-wrap">
-          ${{curbal}}
+          <center>${{curbal}}</center>
           
           <!--</ion-item>-->
         </div></div>
-        <div class="card">
+        <div class="card col">
         <!--  <ion-item >-->
           <div class="item item-divider">
-          Available Balance:
+          <center>Available Balance:</center>
           </div>
           <div class="item item-text-wrap">
-          ${{avabal}}
+         <center> ${{avabal}}</center>
 
           
         <!--  </ion-item>-->
        </div> </div>
+       </div>
 
     <div class="row">
     <div class="col">
-    <img src = "ionic.png" ng-click="profile()" class="center">
+    <img height= "64px" width = "64px" src = "../img/profile.png" ng-click="profile()" class="center">
     <center><span>View Profile</span></center>
 
     </div>
     
     <div class="col">
+<img src = "../img/taxinfo.png" height="64px" width="64px" ng-click="tax()" class="center">
+    <center><p class="center">Tax Information</p></center>
+    
+    </div>
+    </div>
+     <div class="row">
+    <div class="col">
+    <img src = "../img/promotion.png" height="64" width="64px" ng-click="profile()" class="center">
+    <center><span>New Promotion</span></center>
 
-    <img src = "ionic.png" ng-click="tax()" class="center">
+    </div>
+    
+    <div class="col">
+<img src = "../img/balance.png" height="64px" width="64px" ng-click="tax()" class="center">
     <center><p class="center">Balance History</p></center>
+    
     </div>
     </div>
   </ion-content>
