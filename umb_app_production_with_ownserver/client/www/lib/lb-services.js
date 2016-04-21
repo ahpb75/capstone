@@ -11,7 +11,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
 (function(window, angular, undefined) {'use strict';
 
-var urlBase = "codeigniter@capstone.eastus.cloudapp.azure.com:3000/api";
+var urlBase = "http://codeigniter@capstone.eastus.cloudapp.azure.com:3000/api";
 var authHeader = 'authorization';
 
 function getHost(url) {
