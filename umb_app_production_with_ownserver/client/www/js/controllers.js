@@ -1,12 +1,15 @@
 angular.module('umb-hsa.controllers', [])
 
-.controller('TabCtrl',function($scope,$state,$window){
+.controller('TabCtrl',function($scope,$state,$window,$http){
 
  $scope.home = function(){
 
 $state.go('tab.dash', {}, {reload: true});
-       // $window.location.reload(true);
-
+  // $http.get('#/tab/dash')
+  //    .success(function() {
+  //     getBalance();
+  //     getProfile();
+  //    })
   };
 
   $scope.activity = function(){
@@ -493,39 +496,7 @@ $state.go('tab.dash', {}, {reload: true});
     var alertPopup = $ionicPopup.alert({title: 'Transaction Fired!', template: 'Go Claim it'});
     $state.go('tab.claim');
   }
-})
-
-
-.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService) {
-
-$scope.claims = [];
-  $scope.input = dataService.getTransaction();
-  $scope.input.trans_date = (new Date($scope.input.trans_date)).toDateString();
-  $scope.currentUser = Myuser.getCachedCurrent();
-    $scope.curbal = dataService.getBalance();
-        $scope.avabal = dataService.getBalance();
-        $scope.bal = {};
-function getBalance() {
-          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
-          $scope.bal = list[0].toJSON().id;
-          });
-         }
-getBalance();
-
-      $scope.addClaim = function() {
-    $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
-    Reimburse_claim.create($scope.newClaim);
-    Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
-    $scope.curbal = $scope.curbal - $scope.input.amount;
-        $scope.avabal = $scope.avabal - $scope.input.amount;
-        dataService.addBalance($scope.curbal);
-    Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
-    var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
-    $state.go('tab.claim');
-
-  }
-                $scope.takePhoto = function () {
+   $scope.takePhoto = function () {
                   var options = {
                     quality: 75,
                     destinationType: Camera.DestinationType.DATA_URI,
@@ -703,6 +674,40 @@ $scope.uploadImage = function(imageData){
                 alert(error + "error");
             });
     }
+}
+)
+
+
+.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService) {
+
+$scope.claims = [];
+  $scope.input = dataService.getTransaction();
+  $scope.input.trans_date = (new Date($scope.input.trans_date)).toDateString();
+  $scope.currentUser = Myuser.getCachedCurrent();
+    $scope.curbal = dataService.getBalance();
+        $scope.avabal = dataService.getBalance();
+        $scope.bal = {};
+function getBalance() {
+          Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+          $scope.bal = list[0].toJSON().id;
+          });
+         }
+getBalance();
+
+      $scope.addClaim = function() {
+    $scope.currDate = new Date();
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
+    Reimburse_claim.create($scope.newClaim);
+    Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
+    $scope.curbal = $scope.curbal - $scope.input.amount;
+        $scope.avabal = $scope.avabal - $scope.input.amount;
+        dataService.addBalance($scope.curbal);
+    Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
+    var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
+    $state.go('tab.claim');
+
+  }
+               
   })
 
 ;
