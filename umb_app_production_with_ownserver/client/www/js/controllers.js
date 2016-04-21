@@ -104,7 +104,7 @@ $state.go('tab.dash', {}, {reload: true});
 .controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService,Bal_history) {
        
        $scope.bal_hists = {};
-       
+
        $scope.doRefresh = function() {
       $http.get('#')
      .success(function() {
@@ -498,12 +498,37 @@ $state.go('tab.dash', {}, {reload: true});
 
 })
 
-.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser) {
+.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
+  $scope.datee = {};
+  var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        $scope.datee = new Date(val);
+      },
+      disabledDates: [            //Optional
+        new Date(2016, 2, 16),
+        new Date(2015, 3, 16),
+        new Date(2015, 4, 16),
+        new Date(2015, 5, 16),
+        new Date('Wednesday, August 12, 2015'),
+        new Date("08-16-2016"),
+        new Date(1439676000000)
+      ],
+      from: new Date(2012, 1, 1), //Optional
+      to: new Date(2016, 10, 30), //Optional
+      inputDate: new Date(),      //Optional
+      mondayFirst: true,          //Optional
+      disableWeekdays: [0],       //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup'       //Optional
+    };
+  $scope.openDatePicker = function(){
+    ionicDatePicker.openDatePicker(ipObj1);
+  }
   $scope.input = {};
   $scope.currentUser = Myuser.getCachedCurrent();
-  $scope.currDate = new Date();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
+    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
