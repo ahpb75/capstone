@@ -4,9 +4,12 @@
     </ion-nav-title>
     <ion-content class="padding">
         <div class="list">
-            <label class="item item-input ">
+            <button class="button button-block button-positive" ng-click="openDatePicker()">
+            Choose the date
+        </button>
+        <label class="item item-input ">
                 <span class="input-label">Date of Expense</span>
-                <input type="text" placeholder="01/11/1990" ng-model="input.date_of_expense">
+                <input type="text" placeholder="01/10/1994" ng-model="input.datee">
             </label>
             <label class="item item-input ">
                 <span class="input-label">Expense Category</span>
