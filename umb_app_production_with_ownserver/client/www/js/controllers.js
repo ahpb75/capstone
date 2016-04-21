@@ -120,10 +120,10 @@ $state.go('tab.dash', {}, {reload: true});
        function getBalance() {
           Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
           var temp = list[0].toJSON().curr_balance;
+          temp = Math.round(temp * 10) / 10;
           dataService.addBalance(temp);
                   $scope.curbal = dataService.getBalance();
         $scope.avabal = dataService.getBalance();
-
           });
          }
                  getBalance();
