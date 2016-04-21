@@ -493,7 +493,7 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.addTransaction = function(){
     $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
-    var alertPopup = $ionicPopup.alert({title: 'Transaction Fired!', template: 'Go Claim it'});
+    var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
   }
    $scope.takePhoto = function () {
@@ -703,7 +703,7 @@ getBalance();
         $scope.avabal = $scope.avabal - $scope.input.amount;
         dataService.addBalance($scope.curbal);
     Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
-    var alertPopup = $ionicPopup.alert({title: 'Claim Fired!', template: 'View it in details!'});
+    var alertPopup = $ionicPopup.alert({title: 'Claim Sent!', template: 'View it in details!'});
     $state.go('tab.claim');
 
   }
