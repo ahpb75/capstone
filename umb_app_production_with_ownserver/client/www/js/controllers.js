@@ -504,6 +504,7 @@ $state.go('tab.dash', {}, {reload: true});
       callback: function (val) {  //Mandatory
         console.log('Return value from the datepicker popup is : ' + val, new Date(val));
         $scope.datee = new Date(val);
+        $scope.input.datee = (new Date(val)).toDateString();
       },
       disabledDates: [            //Optional
         new Date(2016, 2, 16),
