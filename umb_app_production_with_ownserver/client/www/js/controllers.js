@@ -1,15 +1,15 @@
 angular.module('umb-hsa.controllers', [])
 
-.controller('TabCtrl',function($scope,$state,$window){
+.controller('TabCtrl',function($scope,$state,$window,$http){
 
  $scope.home = function(){
 
-// $state.go('tab.dash', {}, {reload: true});
-  $http.get('#/tab/dash')
-     .success(function() {
-      getBalance();
-      getProfile();
-     })
+$state.go('tab.dash', {}, {reload: true});
+  // $http.get('#/tab/dash')
+  //    .success(function() {
+  //     getBalance();
+  //     getProfile();
+  //    })
   };
 
   $scope.activity = function(){
