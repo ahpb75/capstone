@@ -1,0 +1,33 @@
+ <ion-view class="auth-view" cache-view="false"  class="class-white">
+    <ion-nav-title>
+        <span>New Claim</span>
+    </ion-nav-title>
+    <ion-content class="padding">
+        <div class="list">
+          <label class="item ">
+                <span class="input-label">Transaction ID</span>
+                <span> {{input.trans_id}}</span>
+            </label>
+            <label class="item ">
+                <span class="input-label">Date of Expense</span>
+                <span> {{input.trans_date}}</span>
+            </label>
+            <label class="item ">
+                <span class="input-label">Payment Method</span>
+                <span> {{input.payment_method}}</span>
+            </label>
+            <label class="item ">
+                <span class="input-label">Amount to Claim</span>
+                <span> {{input.amount}}</span>
+            </label>
+        
+             <label class="item item-input ">
+                <span class="input-label">Descripe Expenses</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.description">
+            </label>
+        </div>
+        <button type ="submit"class="button button-block button-positive" ng-click="addClaim()">
+            Submit
+        </button>
+    </ion-content>
+</ion-view>

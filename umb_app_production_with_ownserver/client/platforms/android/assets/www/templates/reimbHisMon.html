@@ -1,0 +1,51 @@
+<ion-view view-title="Monthly Usage History">
+<!--  <ion-content class="padding">-->
+
+ 
+
+    <ion-content class="padding">
+    <!--<div class="row header">
+    <div class="col" style="font-size: 14pt;">Date of Expense</div>
+    <div class="col" style="font-size: 14pt;">Reimbursement</div>
+    </div>
+    <div class="row" style="border:1px solid black" ng-repeat="item in claims">
+    <div class="col" ng-repeat="(key,value) in item" ng-if="$even" >{{value}}</div>
+    <div class="col" ng-repeat="(key,value) in item" ng-if="$odd">${{value}}</div>
+    </div>-->
+
+<table style="width: 100%;" orderby:>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
+<tr ng-repeat="item in claims">
+<td ng-repeat="(key,value) in item" ng-if="$even" >{{ value }}</td>
+<td ng-repeat="(key,value) in item" ng-if="$odd" >${{ value }}</td>
+</tr>
+</table>
+
+
+ <button class="button button-block button-positive" ng-click="viewGraph()">
+            View Graph Visualization
+        </button>
+  <!--  <ion-list >
+      <ion-item ng-repeat="item in claims">
+        <div class="card">
+          <ion-item ng-repeat="(key,value) in item">
+          <div class="item item-divider" ng-if="$even">
+          Date of Expense
+          </div>
+          <div class="item item-divider" ng-if="$odd">
+          Reimbursement
+          </div>
+          <div class="item item-text-wrap" ng-if="$even">
+          {{value}}
+          </div>
+           <div class="item item-text-wrap" ng-if="$odd">
+          ${{value}}
+          </div>
+          </ion-item>
+        </div>
+      </ion-item>
+    </ion-list>-->
+
+    
+  </ion-content>
+</ion-view>

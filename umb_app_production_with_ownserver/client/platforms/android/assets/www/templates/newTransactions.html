@@ -1,0 +1,57 @@
+ <ion-view class="auth-view" cache-view="false"  class="class-white">
+    <ion-nav-title>
+        <span>New Transactions</span>
+    </ion-nav-title>
+    <ion-content class="padding">
+        <div class="list">
+            <button class="button button-block button-positive" ng-click="openDatePicker()">
+            Choose the date
+        </button>
+        <label class="item item-input ">
+                <span class="input-label">Date of Expense</span>
+                <input type="text" placeholder="01/10/1994" ng-model="input.datee">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Expense Category</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.category">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Expense Name</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.ename">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Provider Name</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.pname">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Descripe Expense</span>
+                <input type="text" placeholder="Medical Check-up, Dental, Vision" ng-model="input.note">
+            </label>
+            <label class="item item-input ">
+                <span class="input-label">Payment Method</span>
+                <input type="text" placeholder="Visa" ng-model="input.payment_method">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Amount</span>
+                <input type="text" placeholder="100.50" ng-model="input.amount">
+            </label>
+        </div>
+        <button type ="submit"class="button button-block button-positive" ng-click="addTransaction()">
+            Submit
+        </button>
+        <button class="button button-block button-positive" ng-click="takePhoto()">
+            Take Photo
+        </button>
+        <button class="button button-block button-positive" ng-click="choosePhoto()">
+            Choose Photo
+        </button>
+        <center>
+        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
+        <button class="button button-block button-assertive" ng-click="uploadImage()">
+            Process Photo
+        </button>
+        <div ng-controller="ExampleController">
+          <p>{{res}}</p>
+        </div>
+    </ion-content>
+</ion-view>
