@@ -47,6 +47,12 @@
         <button class="button button-block button-assertive" ng-click="uploadImage()">
             Process Photo
         </button>
+        <div ng-show="items !== undefined" class="list">
+          <label ng-repeat="item in items" class="item item-input">
+          <span class="input-label">{{item}}</span>
+          <input ng-repeat="item in items"  ng-model='values[$index]' type='text' value=''>
+        </label>
+        </div>
         <div ng-controller="ExampleController">
           <p>{{res}}</p>
         </div>
