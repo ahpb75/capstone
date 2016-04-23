@@ -1,0 +1,59 @@
+<ion-view view-title="Claim Details"  class="class-white">
+  <ion-content class="padding">
+
+   <!-- <ion-list can-swipe="true">-->
+     <!-- <ion-item ng-repeat="item in claims" >
+
+        <div class="card" ng-click="show(item.s1,item.s2,item.s3,item.s4,item.s5)">
+          <ion-item>-->
+
+
+
+          <table style="width: 100%;" orderby:>
+          <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Details</th>
+          <tr ng-repeat="item in claims">
+          <td ng-repeat="(key,value) in item" ng-if="$index==1" >{{ item.s1 }}</td>
+          <td ng-repeat="(key,value) in item" ng-if="$index==3" >${{ item.s3 }}</td>
+          <td><button ng-click="show(item.s1,item.s2,item.s3,item.s4,item.s5)" class = "button button-small button-positive">View Details</button></td>
+      </tr>
+<!--
+          <div class="item item-divider">
+          ${{item.s3}}
+          </div>
+          <div class="item item-text-wrap">
+          {{item.s1}}
+          </div>
+          <!-- <div class="item item-divider" ng-if="$index == 1">
+          Payment Method :
+          </div>
+          <div class="item item-divider" ng-if="$index == 2">
+          Reimbursement :
+          </div>
+          <div class="item item-divider" ng-if="$index == 3">
+          Transaction ID :
+          </div>
+          <div class="item item-divider" ng-if="$index == 4">
+          Status :
+          </div>
+          <div class="item item-text-wrap" ng-if="!$last">
+          {{value}}
+          </div> -->
+        <!--
+          
+          
+          <div class="item item-text-wrap">
+          {{item.s5}}
+          </div>
+          <ion-item>
+          Click For More Info
+          </ion-item>
+
+
+        </div>
+        <ion-option-button class="button-assertive" ng-click="deleteClaim(item.id)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    <!--</ion-list>-->
+  </ion-content>
+</ion-view>
