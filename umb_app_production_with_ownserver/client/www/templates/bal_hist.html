@@ -2,7 +2,7 @@
     <ion-nav-title>
     </ion-nav-title>
     <ion-content class="padding">
-        {{bal_hists}}
+        <!-- {{bal_hists}} -->
 
         <table style="width: 100%;" orderby:>
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Date</th>
@@ -10,9 +10,9 @@
 
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Balance</th>
 <tr ng-repeat="item in bal_hists">
-<td ng-repeat="(key,value) in bal_hists" ng-if="$index==1" >{{ bal_hists.date }}</td>
-<td ng-repeat="(key,value) in bal_hists" ng-if="$index==2" >{{ bal_hists.amount }}</td>
-<td   >{{ curbal-balhists.amount }}</td>
+<td ng-repeat="(key,value) in bal_hists" ng-if="$index==1" >{{ item.date }}</td>
+<td ng-repeat="(key,value) in bal_hists" ng-if="$index==2" >{{ item.amount }}</td>
+<td   >{{ item.balance }}</td>
 
 
 
