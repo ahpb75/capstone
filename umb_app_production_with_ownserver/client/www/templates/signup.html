@@ -1,11 +1,11 @@
-<ion-view view-title="Signup" name="signup-view" style="background: url('../img/bg-img.jpg');" class="class-white">
+<ion-view view-title="Signup" name="signup-view" st class="class-white" style="background:white;">
   <ion-content class="padding">
-  <div class="row">
-      <img src="img/umb.png" height="50" width="100" style="display:block;margin-left:auto;margin-right:auto">
-      </div>
+  
+      <center><img src="img/umblogo.png"  width="80%"></center>
+     
       <div>
-      <p> Please contact your bank, you have to have a bank account first to use this app</p>
-      <p> For testing purpose, right now you could use</p>
+      <p> Please contact your bank to get your account identification number.</p>
+      <p> For testing purpose, you can use these two numbers:</p>
       <p>56cf75c48f9f0c3ad718fa69</p>
       <p>56cf75c48f9f0c3ad718fa6a</p>
       </div>
@@ -27,12 +27,11 @@
                 <label class="item item-input">
                     <i class="icon ion-ios-person"></i>
                     <input type="text" placeholder="Account_Id" name="Account_Id" ng-model="registration.account_id" required>
-                </label>
+                </label></div></form>
                  <button ng-disabled="!registerForm.$valid" ng-click="register()"
-                        class="button icon ion-compose button-block button-outline button-royal">
+                        class="button icon ion-compose button-block  button-positive">
                     Register
                 </button>
-            </div>
-            </form>
+           
   </ion-content>
 </ion-view>
