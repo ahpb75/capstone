@@ -621,7 +621,7 @@ $scope.uploadImage = function(imageData){
            params : { 'apikey': apikey, 'file': imgData2 }
          };
          $cordovaFileTransfer.upload(api_url, targetPath, options2).then(function (result) {
-             alert("SUCCESS: " + JSON.stringify(result.response));
+             console.log("SUCCESS: " + JSON.stringify(result.response));
              //$scope.res = JSON.stringify(result.response);
              var js = JSON.parse(result.response);
              console.log(js);
@@ -629,7 +629,7 @@ $scope.uploadImage = function(imageData){
              var info = js.text_block[0].text;
              var string_info = String(info);
              var array_response = string_info.match(/^.*((\r\n|\n|\r)|$)/gm);
-             alert(array_response[1]);
+             console.log(array_response[1]);
              $scope.items = array_response;
              $scope.res = js.text_block[0].text;
              $scope.show_form = true;

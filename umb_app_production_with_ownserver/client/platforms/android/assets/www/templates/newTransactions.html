@@ -48,9 +48,14 @@
             Process Photo
         </button>
         <div ng-show="items !== undefined" class="list">
-          <label ng-repeat="item in items" class="item item-input">
-          <span class="input-label">{{item}}</span>
-          <input ng-repeat="item in items"  ng-model='values[$index]' type='text' value=''>
+        <!--  <label ng-repeat="item in items" class="item item-input">
+          <span class="input-label">{{item}}</span> -->
+
+        <input ng-repeat="item in items"  ng-model='items[$index]'>
+        <button class="button button-block button-positive">Submit</button>
+
+        <label class="item item-input">
+            <input ng-repeat="item in items"  ng-model='items[$index]'>
         </label>
         </div>
         <div ng-controller="ExampleController">
