@@ -214,15 +214,6 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     }
    })
    
-   .state('tab.promotion',{
-    url:'/promotion',
-    views:{
-      'tab-dash':{
-        templateUrl:'templates/promotion.html',
-      
-      }
-    }
-   })
   .state('tab.newClaim',{
     url:'/newClaim',
     views:{
