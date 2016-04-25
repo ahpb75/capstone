@@ -35,6 +35,10 @@
                 <span class="input-label">Amount</span>
                 <input type="text" placeholder="100.50" ng-model="input.amount">
             </label>
+            <label class="item item-input">
+                <span class="input-label">File Name</span>
+                <input type="text" placeholder="(Automatically Generated)" ng-model="file_name" value = "file_name">
+            </label>
         </div>
         <button type ="submit"class="button button-block button-positive" ng-click="addTransaction()">
             Submit
@@ -50,8 +54,22 @@
         <button class="button button-block button-assertive" ng-click="uploadImage()">
             Process Photo
         </button>
-        <div ng-controller="ExampleController">
-          <p>{{res}}</p>
+        <div ng-show="items !== undefined" class="list">
+        <!--  <label ng-repeat="item in items" class="item item-input">
+          <span class="input-label">{{item}}</span> -->
+
+        <!-- <input ng-repeat="item in items"  ng-model='items[$index]'>
+        <button class="button button-block button-positive">Submit</button> -->
+        <form ng-submit="uploadForm()">
+        <label class="item item-input" ng-repeat = "i in objForm">
+            <span class="input-label">{{($index + 1)}}</span>
+            <input type="text" ng-model="i.value">
+        </label>
+        <button type="submit" class="button button-block button-positive">Done Editing</button>
+      </form>
+</div>
+        <div ng-repeat="j in user_input" >
+          <p >{{j}}</p>
         </div>
     </ion-content>
 </ion-view>

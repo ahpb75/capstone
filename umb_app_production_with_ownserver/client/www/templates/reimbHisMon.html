@@ -13,9 +13,9 @@
     <div class="col" ng-repeat="(key,value) in item" ng-if="$odd">${{value}}</div>
     </div>-->
 
-<table style="width: 100%;" orderby:>
+<table style="width: 100%;">
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
-<tr ng-repeat="item in claims">
+<tr ng-repeat="item in claims | orderBy:'-d'">
 <td ><center>{{ item.date_of_claim }}</center></td>
 <td ><center>${{ item.total_reimbursement }}</center></td>
 </tr>
