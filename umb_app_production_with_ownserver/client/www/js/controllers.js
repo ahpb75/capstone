@@ -525,16 +525,6 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.m11 = 1;
   $scope.m12 = 1;
   $scope.currentUser = Myuser.getCachedCurrent();
-  $scope.aa = {};
-  function getProfile(){
-          Account_info.find({filter:{where:{ id:$scope.currentUser.account_id}}},function(list){
-            $scope.aa = list[0].toJSON();
-          });
-         }
-
-      getProfile();
-      console.dir($scope.aa);
-
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
@@ -567,7 +557,7 @@ $state.go('tab.dash', {}, {reload: true});
     }
        $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
     var name = $scope.aa.last_name+", "+$scope.aa.first_name;
-    $scope.series = [name];
+    $scope.series = ['A'];
     $scope.data = [[$scope.m1,
     $scope.m2,
     $scope.m3,
