@@ -30,9 +30,10 @@
     </ion-list> -->
     <ion-item ng-repeat="item in claims">
     <center><div style="font-size:18pt;">Quarter {{$index+1}} Report</div><br></center>
-<table style="width: 100%;" orderby:>
+<table style="width: 100%;">
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
-<tr ng-repeat="i in item">
+
+<tr ng-repeat="i in item | orderBy:'-d'">
 <td style="color:black;"><center>{{ i.date_of_claim }}</center></td>
 <td style="color:black;"><center>${{ i.total_reimbursement }}</center></td>
 </tr>

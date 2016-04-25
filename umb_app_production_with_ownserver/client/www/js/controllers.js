@@ -287,7 +287,7 @@ $state.go('tab.dash', {}, {reload: true});
       for(i=0; i<list.length;i++){
         if(new Date(list[i].toJSON().date_of_claim).getMonth() == new Date().getMonth())
         {
-          var temp = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var temp = {d:list[i].toJSON().date_of_claim,date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
         }
     }
@@ -361,7 +361,7 @@ $state.go('tab.dash', {}, {reload: true});
       for(i=0; i<list.length;i++){
         if(new Date(list[i].toJSON().date_of_claim).getMonth() < 3)
         {
-          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {d:list[i].toJSON().date_of_claim,date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
@@ -370,7 +370,7 @@ $state.go('tab.dash', {}, {reload: true});
        for(i=0; i<list.length;i++){
         if(new Date(list[i].toJSON().date_of_claim).getMonth() < 6 && new Date(list[i].toJSON().date_of_claim).getMonth() >=3 )
         {
-          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {d:list[i].toJSON().date_of_claim,date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
@@ -379,7 +379,7 @@ $state.go('tab.dash', {}, {reload: true});
        for(i=0; i<list.length;i++){
         if(new Date(list[i].toJSON().date_of_claim).getMonth() < 9 && new Date(list[i].toJSON().date_of_claim).getMonth() >=6)
         {
-          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {d:list[i].toJSON().date_of_claim,date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
@@ -388,7 +388,7 @@ $state.go('tab.dash', {}, {reload: true});
        for(i=0; i<list.length;i++){
         if(new Date(list[i].toJSON().date_of_claim).getMonth() < 12 && new Date(list[i].toJSON().date_of_claim).getMonth() >=9)
         {
-          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {d:list[i].toJSON().date_of_claim,date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
@@ -434,12 +434,17 @@ $state.go('tab.dash', {}, {reload: true});
 .controller('reimbHisYearlyCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim,Transactions){
    $scope.claims = [];
     $scope.currentUser = Myuser.getCachedCurrent();
-
+    $scope.fi = '-d';
+    $scope.oDate = function(){
+      $scope.fi = '-d';
+    }
+    $scope.oAmount = function(){
+      $scope.fi = '-total_reimbursement';
+    }
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        
-          var temp = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var temp = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement, d: list[i].toJSON().date_of_claim};
           $scope.claims.push(temp);
         
     }
@@ -667,6 +672,7 @@ $state.go('tab.dash', {}, {reload: true});
 
 .controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
   $scope.datee = {};
+  $scope.file_name = {};
   var ipObj1 = {
       callback: function (val) {  //Mandatory
         // console.log('Return value from the datepicker popup is : ' + val, new Date(val));
@@ -696,7 +702,7 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.input = {};
   $scope.currentUser = Myuser.getCachedCurrent();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
+    $scope.newTransaction = {"trans_image":$scope.file_name,"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
@@ -801,6 +807,27 @@ $state.go('tab.dash', {}, {reload: true});
   return time;
 }
 
+$scope.uploadForm= function(){
+var i;
+
+  //alert($scope.objForm);
+  //alert($scope.objForm[0].value);
+  $scope.user_input = [];
+  $scope.stringVersion="";
+for(i=0; i<$scope.objForm.length; ++i){
+
+  var stri = String($scope.objForm[i].value);
+  $scope.user_input.push(stri);
+  //alert($scope.user_input[i]);
+  $scope.stringVersion = $scope.stringVersion + " \n " + $scope.user_input[i] + "  ";
+}
+//alert($scope.stringVersion);
+
+
+  //alert();
+
+}
+
 $scope.uploadImage = function(imageData){
   var url = "http://capstone.eastus.cloudapp.azure.com/upload/upload2.php";
 
@@ -809,10 +836,11 @@ $scope.uploadImage = function(imageData){
       var targetPath = $scope.imgURI;
       var d = new Date();
       var da = d.getTime();
-      var date = timeConverter(da);
-     // File name only
-     var filename = $scope.currentUser.account_id + "_" + date + ".jpg";
-
+      var conver_date = new Date(da);
+      var string_date = String(conver_date);
+      var date_final = string_date.replace(/\s+/g, '-');
+      var filename = $scope.currentUser.account_id + "_" + date_final + ".jpg";
+      $scope.file_name = filename;
      var options = {
           fileKey: "file",
           fileName: filename,
@@ -822,7 +850,7 @@ $scope.uploadImage = function(imageData){
       };
 
       $cordovaFileTransfer.upload(url, targetPath, options).then(function (result) {
-          alert("SUCCESS: " + JSON.stringify(result.response));
+          alert("Receipt Successfully Uploaded!");
       }, function (err) {
           alert("ERROR: " + JSON.stringify(err));
       }, function (progress) {
@@ -837,12 +865,52 @@ $scope.uploadImage = function(imageData){
            params : { 'apikey': apikey, 'file': imgData2 }
          };
          $cordovaFileTransfer.upload(api_url, targetPath, options2).then(function (result) {
-             alert("SUCCESS: " + JSON.stringify(result.response));
+             console.log("SUCCESS: " + JSON.stringify(result.response));
              //$scope.res = JSON.stringify(result.response);
              var js = JSON.parse(result.response);
              console.log(js);
-             alert(js.text_block[0].text);
+             //alert(js.text_block[0].text);
+             var info = js.text_block[0].text;
+             var string_info = String(info);
+             var array_response = string_info.match(/^.*((\r\n|\n|\r)|$)/gm);
+             console.log(array_response[1]);
+             $scope.items = array_response;
              $scope.res = js.text_block[0].text;
+             $scope.show_form = true;
+             $scope.newValues = array_response;
+             $scope.jsonform =[];
+             $scope.objForm = [];
+             //alert($scope.items);
+             var index;
+             var index2;
+             var x = "hi";
+             var y = "no";
+             for(index=0; index<$scope.items.length; ++index){
+               //var data = '{"value" : ' + '"' + x + '"' + '}' ;
+
+               var data = $scope.items[index].replace(/\r?\n|\r/g, " ");
+               $scope.jsonform[index] = '{"value" : ' + '"' + data + '"' + '}' ;
+                 //$scope.jsonform.push('{"value" : ' + '"' + $scope.items[index] + '"' + '}');
+                var data2 = JSON.parse($scope.jsonform[index]);
+                $scope.objForm.push(data2);
+
+                 //alert($scope.jsonform);
+                 //alert($scope.objForm[index].value);
+
+                // alert(data4);
+                 //var data = JSON.parse($scope.jsonform[index]);
+                 //alert(data);
+
+               }
+
+             /*
+             for(index2=0; index2<$scope.items.size; ++index2){
+               var jsonhold = JSON.parse($scope.jsonform[index2]);
+               $scope.objForm.push(jsonhold);
+
+             } */
+
+            // var y = eval()
 
          }, function (err) {
              alert("ERROR: " + JSON.stringify(err));
@@ -873,7 +941,7 @@ $scope.uploadImage = function(imageData){
                 //$scope.text = data;
 
 
-                alert("data is" + data);
+
             })
             .error(function(data, error) {
                 alert(error + "error");
