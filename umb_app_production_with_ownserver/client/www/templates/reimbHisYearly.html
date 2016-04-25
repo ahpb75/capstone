@@ -1,15 +1,15 @@
 <ion-view view-title="Yearly Usage History" class="class-white">
   <ion-content class="padding">
-
-<table style="width: 100%;" orderby:>
-<th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
-<tr ng-repeat="item in claims">
-<td ng-repeat="(key,value) in item" ng-if="$even" >{{ value }}</td>
-<td ng-repeat="(key,value) in item" ng-if="$odd" >${{ value }}</td>
-</tr>
-</table>
 <button class="button button-block button-positive" ng-click="viewGraph()">
             View Graph Visualization
         </button>
+<table style="width: 100%;" orderby:>
+<th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
+<tr ng-repeat="item in claims">
+<td ><center>{{ item.date_of_claim }}</center></td>
+<td ><center>${{ item.total_reimbursement }}</center></td>
+</tr>
+</table>
+
   </ion-content>
 </ion-view>
