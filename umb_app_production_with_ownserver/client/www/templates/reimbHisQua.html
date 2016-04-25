@@ -1,5 +1,5 @@
 
-<ion-view view-title="Quarterly Usage History"  class="class-white">
+<ion-view view-title="Quarterly Usage History" id="styled-page"  class="class-white">
   <ion-content class="padding">
 
   <!-- <button class="button button-block button-positive" ng-click="viewGraph()">
@@ -33,8 +33,8 @@
 <table style="width: 100%;" orderby:>
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
 <tr ng-repeat="i in item">
-<td ><center>{{ i.date_of_claim }}</center></td>
-<td ><center>${{ i.total_reimbursement }}</center></td>
+<td style="color:black;"><center>{{ i.date_of_claim }}</center></td>
+<td style="color:black;"><center>${{ i.total_reimbursement }}</center></td>
 </tr>
 </table>
 </ion-item>
