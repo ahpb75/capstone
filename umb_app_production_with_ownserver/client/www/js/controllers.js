@@ -672,7 +672,7 @@ $state.go('tab.dash', {}, {reload: true});
 
 .controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
   $scope.datee = {};
-  $scope.file_name = {};
+  // $scope.file_name = {};
   var ipObj1 = {
       callback: function (val) {  //Mandatory
         // console.log('Return value from the datepicker popup is : ' + val, new Date(val));
