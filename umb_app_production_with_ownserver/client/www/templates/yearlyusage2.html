@@ -1,20 +1,25 @@
 <ion-view view-title="Yearly Usage Summary"  class="class-white">
   <ion-content class="padding">
 
-    <!-- <ion-list >
-      <ion-item ng-repeat="item in claims">
-        <div id ="container">
-        <ion-list>
-        <ion-item ng-repeat="(key,value) in item">
-        <strong>{{key}}</strong>
-        <br>
-        {{value}}
-        </ion-item>
-        </ion-list>
+
+<!-- <div class="card">
+        <div class="item item-divider">
+            <center>Total Spending for Each Month (Line)</center>
         </div>
-      </ion-item>
-    </ion-list> -->
-<div class="card">
+        <div class="item item-text-wrap">
+            <canvas id="line" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+        </div>
+    </div>
+    <div class="card">
+        <div class="item item-divider">
+            <center>Total Spending for Each Month (Bar)</center>
+        </div>
+        <div class="item item-text-wrap">
+            <canvas id="bar" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+        </div>
+    </div> -->
+    
+    <div class="card">
         <div class="item item-divider">
             <center>Total Spending for Each Month (Line)</center>
         </div>
@@ -30,6 +35,7 @@
             <canvas id="bar" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
         </div>
     </div>
-    
+
+
   </ion-content>
 </ion-view>

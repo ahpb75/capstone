@@ -511,6 +511,68 @@ $state.go('tab.dash', {}, {reload: true});
 })
 
 .controller("ExampleController", function(Account_info,$scope,Reimburse_claim,Myuser) {
+   $scope.m1 = 1;
+  $scope.m2 = 1;
+  $scope.m3 = 1;
+  $scope.m4 = 1;
+  $scope.m5 = 1;
+  $scope.m6 = 1;
+  $scope.m7 = 1;
+  $scope.m8 = 1;
+  $scope.m9 = 1;
+  $scope.m10 = 1;
+  $scope.m11 = 1;
+  $scope.m12 = 1;
+ 
+  function getAllClaims(){
+
+    Reimburse_claim.find(
+      {filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list)
+      {
+      for(i=0; i<list.length;i++){
+       if(new Date(list[i].toJSON().date_of_claim).getMonth() == 0)
+       {$scope.m1 = $scope.m1 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 1)
+          {$scope.m2 = $scope.m2 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 2)
+          {$scope.m3 = $scope.m3 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 3)
+          {$scope.m4 = $scope.m4 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 4)
+          {$scope.m5 = $scope.m5 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 5)
+          {$scope.m6 = $scope.m6 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 6)
+          {$scope.m7 = $scope.m7 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 7)
+          {$scope.m8 = $scope.m8 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 8)
+          {$scope.m9 = $scope.m9 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 9)
+          {$scope.m10 = $scope.m10 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 10)
+          {$scope.m11 = $scope.m11 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 11)
+          {$scope.m12 = $scope.m12 + list[i].toJSON().total_reimbursement;}
+        else{}}
+                  $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
+    $scope.series = ['A'];
+    $scope.data = [
+        [$scope.m1, $scope.m2, $scope.m3, $scope.m4, $scope.m5, $scope.m6, $scope.m7, $scope.m8, $scope.m9, $scope.m10 ,$scope.m11, $scope.m12]    ];
+
+  }
+  )
+        $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
+    $scope.series = ['A'];
+    $scope.data = [
+        [$scope.m1, $scope.m2, $scope.m3, $scope.m4, $scope.m5, $scope.m6, $scope.m7, $scope.m8, $scope.m9, $scope.m10 ,$scope.m11, $scope.m12]    ];
+
+  }
+  getAllClaims();
+    
+})
+
+.controller("ExampleController1", function(Account_info,$scope,Reimburse_claim,Myuser) {
   // $scope.claims = [];
   $scope.m1 = 1;
   $scope.m2 = 1;
@@ -555,22 +617,31 @@ $state.go('tab.dash', {}, {reload: true});
           {$scope.m12 = $scope.m12 + list[i].toJSON().total_reimbursement;}
         else{}
     }
-       $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
-    var name = $scope.aa.last_name+", "+$scope.aa.first_name;
-    $scope.series = ['A'];
-    $scope.data = [[$scope.m1,
-    $scope.m2,
-    $scope.m3,
-    $scope.m4,
-    $scope.m5,
-    $scope.m6,
-    $scope.m7,
-    $scope.m8,
-    $scope.m9,
-    $scope.m10,
-    $scope.m11,
-    $scope.m12]];
-    });
+    
+    // $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
+    // $scope.series = ['A'];
+    // $scope.data = [[$scope.m1,
+    // $scope.m2,
+    // $scope.m3,
+    // $scope.m4,
+    // $scope.m5,
+    // $scope.m6,
+    // $scope.m7,
+    // $scope.m8,
+    // $scope.m9,
+    // $scope.m10,
+    // $scope.m11,
+    // $scope.m12]];
+
+        $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['A', 'B'];
+    $scope.data = [
+        [65, 59, 80, 81, 56, 55, 40],
+        [28, 48, 40, 19, 86, 27, 90]
+    ];
+
+
+  })
   }
   
   getAllClaims();
@@ -589,11 +660,7 @@ $state.go('tab.dash', {}, {reload: true});
     //           $scope.data.push($scope.m11);
     //            $scope.data.push($scope.m12);
     //            console.dir($scope.data);
-    //     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    // $scope.series = ['A'];
-    // $scope.data = [
-    //     [65, 59, 80, 81, 56, 55, 40]
-    // ];
+   
 
 }
 )
