@@ -1,8 +1,38 @@
 <ion-view view-title="Claim Center"  class="class-white">
   <ion-content class="padding">
-  <p>User could file a claim or view the claims that they filed</p>
-         <button class="button button-block button-balanced" ng-click="newTransactions()">New Transactions</button>
+        <!--  <button class="button button-block button-balanced" ng-click="newTransactions()">New Transactions</button>
          <button class="button button-block button-balanced" ng-click="newClaim()">New Claim</button>
-         <button class="button button-block button-positive" ng-click="viewClaim()">View Claim</button>
+         <button class="button button-block button-positive" ng-click="viewClaim()">View Claim</button> -->
+    <div class="card">
+    <div class="item item-divider">
+    	<center>New Transactions</center>
+    </div>
+    <div class="item item-text-wrap">
+    	Take a picture of your receipt to automatically pull its information and put it in a form. Store the receipt securely in the Receipt Vault for your records. 
+    
+    <!-- <div class="item item-text-wrap gr" ng-click="newTransactions()">
+    	<strong>Make New Transaction</strong>
+    	<i class="icon ion-arrow-right-a righti" >
+    	</i>
+    </div> -->
+    <button type="button"class="button button-balanced button-block" ng-click="newTransactions()">Make New Transaction<i class="icon ion-arrow-right-a righti" >
+    	</i></button>
+    	</div>
+    </div>
+    <div class="card">
+    <div class="item item-divider">
+    	<center>New Claim</center>
+    </div>
+    <div class="item item-text-wrap">
+    	Claimed transactions will be deducted from your HSA balance and removed from this list.
+    
+    <button class="button button-balanced button-block" ng-click="newClaim()">Make New Claim<i class="icon ion-arrow-right-a righti" >
+    	</i></button>
+    	</div>
+    </div>
+     <br>
+    <hr/>
+    <center><img height="23px" width="184px" src = "img/umb_slogan.png" class="center"></center>
+    
   </ion-content>
 </ion-view>

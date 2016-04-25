@@ -43,9 +43,7 @@ $state.go('tab.dash', {}, {reload: true});
         $scope.login = function () {
             $scope.loginResult = Myuser.login({include: 'user', rememberMe: true}, $scope.credentials,
                 function () {
-                    var next = $location.nextAfterLogin || 'tab/dash';
-                    $location.nextAfterLogin = null;
-                    $location.path(next);
+                    $state.go('tab.dash');
                 },
                 function (err) {
                     $scope.loginError = err;
@@ -101,10 +99,8 @@ $state.go('tab.dash', {}, {reload: true});
         };
 })
 
-.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService,Bal_history) {
-       
+.controller('DashCtrl', function($ionicPopup,$window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService,Bal_history) {
        $scope.bal_hists = [];
-
        $scope.doRefresh = function() {
       $http.get('#')
      .success(function() {
@@ -115,6 +111,17 @@ $state.go('tab.dash', {}, {reload: true});
        // Stop the ion-refresher from spinning
        $scope.$broadcast('scroll.refreshComplete');
      });
+       };
+
+       $scope.logout = function(){
+      var alertPopup = $ionicPopup.confirm({
+                title: "Logout Confirmation",
+                template: "Do you want to logout?",
+                scope:$scope,
+                buttons:[{text:'No',type:'button-positive'},{text:'Yes',type:'button-assertive',onTap:function(){$state.go('login');
+        $window.location.reload(true);}}]
+            });
+    
        };
 
        function getBalance() {
@@ -278,9 +285,9 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() == new Date().getMonth())
+        if(new Date(list[i].toJSON().date_of_claim).getMonth() == new Date().getMonth())
         {
-          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var temp = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
         }
     }
@@ -352,36 +359,36 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 3)
+        if(new Date(list[i].toJSON().date_of_claim).getMonth() < 3)
         {
-          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
       $scope.claims.push($scope.temp);
       $scope.temp = [];
        for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 6 && new Date(list[i].toJSON().date_of_expense).getMonth() >=3 )
+        if(new Date(list[i].toJSON().date_of_claim).getMonth() < 6 && new Date(list[i].toJSON().date_of_claim).getMonth() >=3 )
         {
-          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
       $scope.claims.push($scope.temp);
             $scope.temp = [];
        for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 9 && new Date(list[i].toJSON().date_of_expense).getMonth() >=6)
+        if(new Date(list[i].toJSON().date_of_claim).getMonth() < 9 && new Date(list[i].toJSON().date_of_claim).getMonth() >=6)
         {
-          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
       $scope.claims.push($scope.temp);
             $scope.temp = [];
        for(i=0; i<list.length;i++){
-        if(new Date(list[i].toJSON().date_of_expense).getMonth() < 12 && new Date(list[i].toJSON().date_of_expense).getMonth() >=9)
+        if(new Date(list[i].toJSON().date_of_claim).getMonth() < 12 && new Date(list[i].toJSON().date_of_claim).getMonth() >=9)
         {
-          var t = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var t = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.temp.push(t);
         }
     }
@@ -432,7 +439,7 @@ $state.go('tab.dash', {}, {reload: true});
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
         
-          var temp = {date_of_expense : (new Date(list[i].toJSON().date_of_expense)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
+          var temp = {date_of_claim : (new Date(list[i].toJSON().date_of_claim)).toDateString(), total_reimbursement : list[i].toJSON().total_reimbursement};
           $scope.claims.push(temp);
         
     }
@@ -469,11 +476,14 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
+                list[i].date_of_claim = (new Date(list[i].toJSON().date_of_claim)).toDateString();
+
         list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
       // console.dir(list[i]);
       var temp = {s1:list[i].date_of_claim,s6:list[i].date_of_expense,s2:list[i].payment_method,s3:list[i].total_reimbursement,s4:list[i].trans_id,s5:list[i].status,id:list[i].id};
       $scope.claims.push(temp);
     }
+    console.dir($scope.claims);
     });
 
   }
@@ -500,16 +510,93 @@ $state.go('tab.dash', {}, {reload: true});
   getAllClaims();
 })
 
-.controller("ExampleController", function($scope) {
+.controller("ExampleController", function(Account_info,$scope,Reimburse_claim,Myuser) {
+  // $scope.claims = [];
+  $scope.m1 = 1;
+  $scope.m2 = 1;
+  $scope.m3 = 1;
+  $scope.m4 = 1;
+  $scope.m5 = 1;
+  $scope.m6 = 1;
+  $scope.m7 = 1;
+  $scope.m8 = 1;
+  $scope.m9 = 1;
+  $scope.m10 = 1;
+  $scope.m11 = 1;
+  $scope.m12 = 1;
+  $scope.currentUser = Myuser.getCachedCurrent();
 
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['A', 'B'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
+  function getAllClaims() {
+    Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
+      for(i=0; i<list.length;i++){
+       if(new Date(list[i].toJSON().date_of_claim).getMonth() == 0)
+       {$scope.m1 = $scope.m1 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 1)
+          {$scope.m2 = $scope.m2 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 2)
+          {$scope.m3 = $scope.m3 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 3)
+          {$scope.m4 = $scope.m4 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 4)
+          {$scope.m5 = $scope.m5 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 5)
+          {$scope.m6 = $scope.m6 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 6)
+          {$scope.m7 = $scope.m7 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 7)
+          {$scope.m8 = $scope.m8 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 8)
+          {$scope.m9 = $scope.m9 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 9)
+          {$scope.m10 = $scope.m10 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 10)
+          {$scope.m11 = $scope.m11 + list[i].toJSON().total_reimbursement;}
+        else if(new Date(list[i].toJSON().date_of_claim).getMonth() == 11)
+          {$scope.m12 = $scope.m12 + list[i].toJSON().total_reimbursement;}
+        else{}
+    }
+       $scope.labels = ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"];
+    var name = $scope.aa.last_name+", "+$scope.aa.first_name;
+    $scope.series = ['A'];
+    $scope.data = [[$scope.m1,
+    $scope.m2,
+    $scope.m3,
+    $scope.m4,
+    $scope.m5,
+    $scope.m6,
+    $scope.m7,
+    $scope.m8,
+    $scope.m9,
+    $scope.m10,
+    $scope.m11,
+    $scope.m12]];
+    });
+  }
+  
+  getAllClaims();
 
-})
+ 
+    // $scope.data.push($scope.m1);
+    //  $scope.data.push($scope.m2);
+    //   $scope.data.push($scope.m3);
+    //    $scope.data.push($scope.m4);
+    //     $scope.data.push($scope.m5);
+    //      $scope.data.push($scope.m6);
+    //       $scope.data.push($scope.m7);
+    //        $scope.data.push($scope.m8);
+    //         $scope.data.push($scope.m9);
+    //          $scope.data.push($scope.m10);
+    //           $scope.data.push($scope.m11);
+    //            $scope.data.push($scope.m12);
+    //            console.dir($scope.data);
+    //     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+    // $scope.series = ['A'];
+    // $scope.data = [
+    //     [65, 59, 80, 81, 56, 55, 40]
+    // ];
+
+}
+)
 
 .controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
   $scope.datee = {};
@@ -748,7 +835,7 @@ getBalance();
 
       $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_claim":$scope.currDate.toJSON(),"date_of_expense":$scope.input.adate,"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_claim":$scope.currDate.toJSON(),"date_of_expense":$scope.adate,"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
     Reimburse_claim.create($scope.newClaim);
     Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
     $scope.curbal = $scope.curbal - $scope.input.amount;

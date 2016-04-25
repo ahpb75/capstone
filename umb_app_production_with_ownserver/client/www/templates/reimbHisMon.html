@@ -16,15 +16,10 @@
 <table style="width: 100%;" orderby:>
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
 <tr ng-repeat="item in claims">
-<td ng-repeat="(key,value) in item" ng-if="$even" >{{ value }}</td>
-<td ng-repeat="(key,value) in item" ng-if="$odd" >${{ value }}</td>
+<td ><center>{{ item.date_of_claim }}</center></td>
+<td ><center>${{ item.total_reimbursement }}</center></td>
 </tr>
 </table>
-
-
- <button class="button button-block button-positive" ng-click="viewGraph()">
-            View Graph Visualization
-        </button>
   <!--  <ion-list >
       <ion-item ng-repeat="item in claims">
         <div class="card">
