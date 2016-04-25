@@ -1,11 +1,11 @@
 /* Empty. Add your own CSS if you like */
 #login-view{
-    background: url('/img/bg-img.jpg');
+    background: url('bg-img.jpg');
 	align-content: center;
 	
 }
 #styled-page{
-	background:url('/img/texture.jpg');
+	background:url('texture.jpg');
 }
 #login-header{
 	color: white;
