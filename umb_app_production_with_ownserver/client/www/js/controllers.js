@@ -101,8 +101,10 @@ $state.go('tab.dash', {}, {reload: true});
         };
 })
 
-.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService) {
+.controller('DashCtrl', function($window,$http,$scope,Myuser,$location,Balance_history,$state,Account_info,dataService,Bal_history) {
        
+       $scope.bal_hists = [];
+
        $scope.doRefresh = function() {
       $http.get('#')
      .success(function() {
@@ -118,10 +120,10 @@ $state.go('tab.dash', {}, {reload: true});
        function getBalance() {
           Balance_history.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
           var temp = list[0].toJSON().curr_balance;
+          temp = Math.round(temp * 100) / 100;
           dataService.addBalance(temp);
                   $scope.curbal = dataService.getBalance();
         $scope.avabal = dataService.getBalance();
-
           });
          }
                  getBalance();
@@ -147,6 +149,15 @@ $state.go('tab.dash', {}, {reload: true});
           $state.go($state.current, {}, {reload: true});
         };
 
+        function getBal_hist(){
+          Bal_history.find({filter:{where:{account_id:$scope.currentUser.account_id}}},function(list){
+            for(i = 0; i < list.length; i++){
+              list[i].date = (new Date(list[i].toJSON().date).toDateString());
+            $scope.bal_hists.push(list[i].toJSON());
+          }
+          })
+        }
+        getBal_hist();
 
     $scope.profile = function(){
       $state.go('tab.profile');
@@ -154,6 +165,10 @@ $state.go('tab.dash', {}, {reload: true});
 
     $scope.tax = function(){
       $state.go('tab.tax');
+    }
+
+    $scope.bal_hist = function(){
+      $state.go('tab.bal_hist');
     }
 })
 
@@ -216,12 +231,23 @@ $state.go('tab.dash', {}, {reload: true});
   function getAllTrans() {
     Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id,Processed:false}}},function(list){
       for(i=0; i<list.length;i++){
+                console.dir(list[i]);
+
           $scope.trans.push(list[i]);
     }
     });
   }
   getAllTrans();
+  console.dir($scope.trans);
 
+  $scope.delete = function(i){
+    Transactions.deleteById({_id:i})
+    .$promise
+    .then(function () {
+      $scope.trans = [];
+      getAllTrans();
+    });
+  };
   $scope.show = function(i){
     Transactions.find({filter:{where:{trans_id : i}}},function(list){
        $scope.t = list[0].toJSON();
@@ -445,17 +471,16 @@ $state.go('tab.dash', {}, {reload: true});
       for(i=0; i<list.length;i++){
         list[i].date_of_expense = (new Date(list[i].toJSON().date_of_expense)).toDateString();
       // console.dir(list[i]);
-      var temp = {s1:list[i].date_of_expense,s2:list[i].payment_method,s3:list[i].total_reimbursement,s4:list[i].trans_id,s5:list[i].status,id:list[i].id};
+      var temp = {s1:list[i].date_of_claim,s6:list[i].date_of_expense,s2:list[i].payment_method,s3:list[i].total_reimbursement,s4:list[i].trans_id,s5:list[i].status,id:list[i].id};
       $scope.claims.push(temp);
     }
     });
 
   }
 
+   $scope.show = function (i1,i2,i3,i4,i5,i6) {
 
-   $scope.show = function (i1,i2,i3,i4,i5) {
-
-        var message = "<strong>Date of Expense : </strong><br>"+i1+"<br><strong>Payment Method : </strong><br>"+i2+"<br><strong>Reimbursement : </strong><br>"+i3+"<br><strong>Transaction ID : </strong><br>"+i4+"<br><strong>Status : </strong><br>"+i5;
+        var message = "<strong>Date of Claim : </strong><br>"+i1+"<strong>Date of Expense : </strong><br>"+i6+"<br><strong>Payment Method : </strong><br>"+i2+"<br><strong>Reimbursement : </strong><br>"+i3+"<br><strong>Transaction ID : </strong><br>"+i4+"<br><strong>Status : </strong><br>"+i5;
             var alertPopup = $ionicPopup.alert({
                 title: "Details",
                 template: message
@@ -486,12 +511,38 @@ $state.go('tab.dash', {}, {reload: true});
 
 })
 
-.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser) {
+.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
+  $scope.datee = {};
+  var ipObj1 = {
+      callback: function (val) {  //Mandatory
+        // console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+        $scope.datee = new Date(val);
+        $scope.input.datee = (new Date(val)).toDateString();
+      },
+      disabledDates: [            //Optional
+        new Date(2016, 2, 16),
+        new Date(2015, 3, 16),
+        new Date(2015, 4, 16),
+        new Date(2015, 5, 16),
+        new Date('Wednesday, August 12, 2015'),
+        new Date("08-16-2016"),
+        new Date(1439676000000)
+      ],
+      from: new Date(2012, 1, 1), //Optional
+      to: new Date(2016, 10, 30), //Optional
+      inputDate: new Date(),      //Optional
+      mondayFirst: true,          //Optional
+      disableWeekdays: [0],       //Optional
+      closeOnSelect: false,       //Optional
+      templateType: 'popup'       //Optional
+    };
+  $scope.openDatePicker = function(){
+    ionicDatePicker.openDatePicker(ipObj1);
+  }
   $scope.input = {};
   $scope.currentUser = Myuser.getCachedCurrent();
-  $scope.currDate = new Date();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
+    $scope.newTransaction = {"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
@@ -678,10 +729,11 @@ $scope.uploadImage = function(imageData){
 )
 
 
-.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService) {
+.controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService,Bal_history) {
 
 $scope.claims = [];
   $scope.input = dataService.getTransaction();
+  $scope.adate = $scope.input.trans_date;
   $scope.input.trans_date = (new Date($scope.input.trans_date)).toDateString();
   $scope.currentUser = Myuser.getCachedCurrent();
     $scope.curbal = dataService.getBalance();
@@ -696,13 +748,15 @@ getBalance();
 
       $scope.addClaim = function() {
     $scope.currDate = new Date();
-    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_expense":$scope.currDate.toJSON(),"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
+    $scope.newClaim = {"trans_id":$scope.input.trans_id,"account_id":$scope.currentUser.account_id,"date_of_claim":$scope.currDate.toJSON(),"date_of_expense":$scope.input.adate,"payment_method":$scope.input.payment_method,"total_reimbursement":$scope.input.amount,"description":$scope.input.description,"status":"Processed"};
     Reimburse_claim.create($scope.newClaim);
     Transactions.prototype$updateAttributes({id:$scope.input.trans_id},{Processed:true});
     $scope.curbal = $scope.curbal - $scope.input.amount;
         $scope.avabal = $scope.avabal - $scope.input.amount;
         dataService.addBalance($scope.curbal);
     Balance_history.prototype$updateAttributes({id:$scope.bal},{curr_balance:$scope.curbal,avail_balance:$scope.avabal});
+    $scope.track = {"date":$scope.currDate,"account_id":$scope.currentUser.account_id,"trans_id":$scope.input.trans_id,"amount":$scope.input.amount,"note":$scope.input.description,"balance":$scope.curbal};
+    Bal_history.create($scope.track);
     var alertPopup = $ionicPopup.alert({title: 'Claim Sent!', template: 'View it in details!'});
     $state.go('tab.claim');
 

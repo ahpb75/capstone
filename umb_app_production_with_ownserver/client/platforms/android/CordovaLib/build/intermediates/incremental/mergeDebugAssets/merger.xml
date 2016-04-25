@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/ahpeth/Projects/Spring_2016/capstone/umb_app_production_with_ownserver/client/platforms/android/CordovaLib/assets"/></dataSet><dataSet config="debug"><source path="/Users/ahpeth/Projects/Spring_2016/capstone/umb_app_production_with_ownserver/client/platforms/android/CordovaLib/src/debug/assets"/></dataSet></merger>

@@ -1,4 +1,4 @@
-angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js','ngCordova'])
+angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 'umb-hsa.services','ngResource','lbServices','chart.js','ngCordova','ionic-datepicker'])
 
 .run(function($ionicPlatform) {
 
@@ -21,6 +21,25 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
+.config(function (ionicDatePickerProvider) {
+    var datePickerObj = {
+      inputDate: new Date(),
+      setLabel: 'Set',
+      todayLabel: 'Today',
+      closeLabel: 'Close',
+      mondayFirst: false,
+      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
+      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      templateType: 'popup',
+      from: new Date(2012, 8, 1),
+      to: new Date(2018, 8, 1),
+      showTodayButton: true,
+      dateFormat: 'dd MMMM yyyy',
+      closeOnSelect: false,
+      // disableWeekdays: [6]
+    };
+    ionicDatePickerProvider.configDatePicker(datePickerObj);
+  })
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -74,6 +93,16 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
     views: {
       'tab-dash':{
         templateUrl: 'templates/tax.html',
+        controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.bal_hist',{
+    url:'/bal_hist',
+    views:{
+      'tab-dash':{
+        templateUrl:'templates/bal_hist.html',
         controller: 'DashCtrl'
       }
     }
@@ -184,7 +213,16 @@ angular.module('umb-hsa', ['ionic','ionic.service.core', 'umb-hsa.controllers', 
       }
     }
    })
-
+   
+   .state('tab.promotion',{
+    url:'/promotion',
+    views:{
+      'tab-dash':{
+        templateUrl:'templates/promotion.html',
+      
+      }
+    }
+   })
   .state('tab.newClaim',{
     url:'/newClaim',
     views:{

@@ -1,0 +1,67 @@
+<ion-view view-title="Home" class="class-white">
+  <ion-content class="padding">
+
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+    <center><h2 class="class-white">Welcome Back!</h2></center>
+    <center><h4 class="class-white">{{input.first_name}} {{input.last_name}}</h3></center>
+    
+    <div class="row">
+        <div class="card col">
+          <!--<ion-item >-->
+          <div class="item item-divider">
+          <center>Current Balance:</center>
+          </div>
+        <div class="item item-text-wrap">
+          <center>${{curbal}}</center>
+          
+          <!--</ion-item>-->
+        </div></div>
+        <div class="card col">
+        <!--  <ion-item >-->
+          <div class="item item-divider">
+          <center>Available Balance:</center>
+          </div>
+          <div class="item item-text-wrap">
+         <center> ${{avabal}}</center>
+
+          
+        <!--  </ion-item>-->
+       </div> </div>
+       </div>
+
+    <div class="row">
+    <div class="col">
+    <img height= "64px" width = "64px" src = "img/profile.png" ng-click="profile()" class="center">
+    <center><span>View Profile</span></center>
+
+    </div>
+    
+    <div class="col">
+<img src = "img/taxinfo.png" height="64px" width="64px" ng-click="tax()" class="center">
+    <center><p class="center">Tax Information</p></center>
+    
+    </div>
+    </div>
+     <div class="row">
+    <div class="col">
+    <img src = "img/promotion.png" height="64" width="64px" ng-href="https://hsa.umb.com/Individuals/index.html" class="center">
+    <center><span>New Promotion</span></center>
+
+    </div>
+    
+    <div class="col">
+<img src = "img/balance.png" height="64px" width="64px" ng-click="bal_hist()" class="center">
+    <center><p class="center">Balance History</p></center>
+    
+    </div>
+    </div>
+    <br/>
+    <hr/>
+    <center><img height="23px" width="184px" src = "img/umb_slogan.png" class="center"></center>
+    
+  </ion-content>
+</ion-view>

@@ -1,0 +1,59 @@
+<ion-view view-title="Activity" class="class-white">
+
+  <ion-content class="padding">
+      <p>From this page you can view your transaction history in the form of a table or a graph.</p>
+   <!--  <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="thisWeek()">
+        Last Week
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="thisMonth()">
+        Last Month
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="thisYear()">
+        Last Year
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list> -->
+    <div class="card">
+    <div class="item item-divider">
+    Monthly Activity
+    </div>
+    <div class="item item-text-wrap">
+    <button type ="button"class="button button-block button-positive" ng-click="TransHisMon()">
+            Transaction History
+        </button>
+        <button type ="button"class="button button-block button-positive" ng-click="ReimbHisMon()">
+            Reimbursement History
+        </button>
+    </div>
+    </div>
+    <div class="card">
+    <div class="item item-divider">
+    Quarterly Activity
+    </div>
+    <div class="item item-text-wrap">
+    <button type ="button"class="button button-block button-positive" ng-click="TransHisQua()">
+           Transaction History
+        </button>
+        <button type ="button"class="button button-block button-positive" ng-click="ReimbHisQua()">
+            Reimbursement History
+        </button>
+    </div>
+    </div>
+    <div class="card">
+    <div class="item item-divider">
+    Yearly Activity
+    </div>
+    <div class="item item-text-wrap">
+    <button type ="button"class="button button-block button-positive" ng-click="TransHisYear()">
+           Transaction History
+        </button>
+        <button type ="button"class="button button-block button-positive" ng-click="ReimbHisYear()">
+            Reimbursement History
+        </button>
+    </div>
+    </div>
+  </ion-content>
+</ion-view>
