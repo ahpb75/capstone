@@ -281,6 +281,13 @@ $state.go('tab.dash', {}, {reload: true});
 .controller('reimbHisMonCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim,Transactions){
    $scope.claims = [];
     $scope.currentUser = Myuser.getCachedCurrent();
+    $scope.fi = '-d';
+    $scope.oDate = function(){
+      $scope.fi = '-d';
+    }
+    $scope.oAmount = function(){
+      $scope.fi = '-total_reimbursement';
+    }
 
   function getAllClaims() {
     Reimburse_claim.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
@@ -306,7 +313,13 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.temp = [];
   $scope.currentUser = Myuser.getCachedCurrent();
   $scope.count = 1;
-
+   $scope.fi = '-d';
+    $scope.oDate = function(){
+      $scope.fi = '-d';
+    }
+    $scope.oAmount = function(){
+      $scope.fi = '-total_reimbursement';
+    }
   function getAllClaims() {
     Transactions.find({filter:{where:{account_id : Myuser.getCachedCurrent().account_id}}},function(list){
       for(i=0; i<list.length;i++){
@@ -670,7 +683,10 @@ $state.go('tab.dash', {}, {reload: true});
 }
 )
 
-.controller("NewTransactionCtrl", function ($scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
+.controller("NewTransactionCtrl", function (dataService,$scope, $state, $cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Transactions,Myuser,ionicDatePicker) {
+  $scope.input = {};
+  $scope.i = {};
+  $scope.itemsform= {};
   $scope.datee = {};
   // $scope.file_name = {};
   var ipObj1 = {
@@ -699,10 +715,9 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.openDatePicker = function(){
     ionicDatePicker.openDatePicker(ipObj1);
   }
-  $scope.input = {};
   $scope.currentUser = Myuser.getCachedCurrent();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"trans_image":$scope.file_name,"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
+    $scope.newTransaction = {"trans_image":file_name,"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
@@ -808,6 +823,8 @@ $state.go('tab.dash', {}, {reload: true});
 }
 
 $scope.uploadForm= function(){
+  $scope.items = undefined;
+  $scope.a = {};
 var i;
 
   //alert($scope.objForm);
@@ -819,8 +836,12 @@ for(i=0; i<$scope.objForm.length; ++i){
   var stri = String($scope.objForm[i].value);
   $scope.user_input.push(stri);
   //alert($scope.user_input[i]);
-  $scope.stringVersion = $scope.stringVersion + " \n " + $scope.user_input[i] + "  ";
+  $scope.stringVersion = $scope.stringVersion + " \n " + $scope.user_input[i] + " <br>";
 }
+var alertPopup = $ionicPopup.alert({
+                title: "Please Review the Data",
+                template: $scope.stringVersion
+            });
 //alert($scope.stringVersion);
 
 
@@ -829,6 +850,9 @@ for(i=0; i<$scope.objForm.length; ++i){
 }
 
 $scope.uploadImage = function(imageData){
+
+    // var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
+    // $state.go('tab.claim');
   var url = "http://capstone.eastus.cloudapp.azure.com/upload/upload2.php";
 
      //File for Upload
@@ -912,11 +936,15 @@ $scope.uploadImage = function(imageData){
 
             // var y = eval()
 
+
+
          }, function (err) {
              alert("ERROR: " + JSON.stringify(err));
          }, function (progress) {
 
-         });
+         }
+
+         );
          // uses this function
          function readFileAsBinaryString(file) {
                var reader = new FileReader();
@@ -950,6 +978,12 @@ $scope.uploadImage = function(imageData){
 }
 )
 
+// .controller("imageformCtrl",function($scope,dataService,$state){
+//   $scope.objForm = dataService.getImagedata;
+//   $scope.uploadForm = function(){
+//     $state.go('tab.newClaim');
+//   }
+// })
 
 .controller("NewClaimCtrl", function ($scope, $state,$cordovaCamera, $http, $cordovaFileTransfer,$ionicPopup,Reimburse_claim,Myuser,dataService,Transactions,Balance_history,dataService,Bal_history) {
 

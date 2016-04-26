@@ -2,7 +2,8 @@
     <ion-nav-title>
         <span>New Transactions</span>
     </ion-nav-title>
-    <ion-content class="padding">
+    <ion-content class="padding ">
+    <div ng-show="items == undefined" class = "animated tada">
         <div class="list">
             <button class="button button-block button-positive" ng-click="openDatePicker()">
             Choose the date
@@ -40,6 +41,8 @@
                 <input type="text" placeholder="(Automatically Generated)" ng-model="file_name" value = "file_name">
             </label>
         </div>
+           <center>     <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
+
         <button type ="submit"class="button button-block button-positive" ng-click="addTransaction()">
             Submit
         </button>
@@ -49,27 +52,21 @@
         <button class="button button-block button-positive" ng-click="choosePhoto()">
             Choose Photo
         </button>
-        <center>
-        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center"></center>
         <button class="button button-block button-balanced" ng-click="uploadImage()">
             Process Photo
         </button>
-        <div ng-show="items !== undefined" class="list">
-        <!--  <label ng-repeat="item in items" class="item item-input">
-          <span class="input-label">{{item}}</span> -->
-
-        <!-- <input ng-repeat="item in items"  ng-model='items[$index]'>
-        <button class="button button-block button-positive">Submit</button> -->
+        </div>
+        <div ng-show="items !== undefined" class="list animated jello">
         <form ng-submit="uploadForm()">
         <label class="item item-input" ng-repeat = "i in objForm">
-            <span class="input-label">{{($index + 1)}}</span>
             <input type="text" ng-model="i.value">
         </label>
         <button type="submit" class="button button-block button-positive">Done Editing</button>
       </form>
 </div>
-        <div ng-repeat="j in user_input" >
-          <p >{{j}}</p>
-        </div>
+        <!-- <div ng-repeat="j in user_input" >
+          <strong >{{j}}</strong>
+          <hr>
+        </div> -->
     </ion-content>
 </ion-view>

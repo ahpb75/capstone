@@ -1,0 +1,12 @@
+  <div ng-show="items !== undefined" class="list">
+        <form ng-submit="uploadForm()">
+        <label class="item item-input" ng-repeat = "i in objForm">
+            <span class="input-label">{{($index + 1)}}</span>
+            <input type="text" ng-model="i.value">
+        </label>
+        <button type="submit" class="button button-block button-positive">Done Editing</button>
+      </form>
+</div>
+        <div ng-repeat="j in user_input" >
+          <p >{{j}}</p>
+        </div>
