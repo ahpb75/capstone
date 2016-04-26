@@ -4,6 +4,7 @@ angular.module('umb-hsa.services', [])
 
   var transaction = {};
   var balance = {};
+  var imagedata = [];
 
   var addTransaction = function(newObj) {
       transaction = newObj;
@@ -21,11 +22,21 @@ angular.module('umb-hsa.services', [])
       return balance;
   };
 
+  var addImageData = function(newObj){
+      imagedata = newObj;
+  };
+
+  var getImageData = function(){
+    return imagedata;
+  };
+
   return {
     addTransaction: addTransaction,
     getTransaction: getTransaction,
     addBalance: addBalance,
-    getBalance: getBalance
+    getBalance: getBalance,
+    addImageData: addImageData,
+    getImageData: getImageData
   };
 })
 ;

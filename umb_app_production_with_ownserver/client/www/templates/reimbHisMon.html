@@ -12,10 +12,21 @@
     <div class="col" ng-repeat="(key,value) in item" ng-if="$even" >{{value}}</div>
     <div class="col" ng-repeat="(key,value) in item" ng-if="$odd">${{value}}</div>
     </div>-->
-
+    <div class="row">
+        <div class="col">
+        <button class="button button-block button-positive" ng-click="oDate()">
+            Order By Date
+        </button>
+        </div>
+        <div class="col">
+        <button class="button button-block button-positive" ng-click="oAmount()">
+            Order By Amount
+        </button>
+        </div>
+        </div>
 <table style="width: 100%;">
 <th style="background-color: #0085ff; color: white; font-size:16pt;">Claim Date</th><th style="background-color: #0085ff; color: white; font-size: 16pt;">Amount</th>
-<tr ng-repeat="item in claims | orderBy:'-d'">
+<tr ng-repeat="item in claims | orderBy:fi">
 <td ><center>{{ item.date_of_claim }}</center></td>
 <td ><center>${{ item.total_reimbursement }}</center></td>
 </tr>
