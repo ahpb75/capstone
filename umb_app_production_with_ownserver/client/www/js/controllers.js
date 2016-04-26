@@ -688,6 +688,7 @@ $state.go('tab.dash', {}, {reload: true});
   $scope.i = {};
   $scope.itemsform= {};
   $scope.datee = {};
+  // $scope.file_name = "Automatic Genarated";
   // $scope.file_name = {};
   var ipObj1 = {
       callback: function (val) {  //Mandatory
@@ -717,7 +718,7 @@ $state.go('tab.dash', {}, {reload: true});
   }
   $scope.currentUser = Myuser.getCachedCurrent();
   $scope.addTransaction = function(){
-    $scope.newTransaction = {"trans_image":file_name,"account_id":$scope.currentUser.account_id,"trans_date":$scope.currDate.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
+    $scope.newTransaction = {"trans_image":$scope.file_name,"account_id":$scope.currentUser.account_id,"trans_date":$scope.datee.toJSON(),"trans_category":$scope.input.category,"trans_name":$scope.input.ename,"provider_name":$scope.input.pname,"amount":$scope.input.amount,"Processed":false,"note":$scope.input.note,"payment_method":$scope.input.payment_method};
     Transactions.create($scope.newTransaction);
     var alertPopup = $ionicPopup.alert({title: 'Transaction Sent!', template: 'Go Claim it'});
     $state.go('tab.claim');
