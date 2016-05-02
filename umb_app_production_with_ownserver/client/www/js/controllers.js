@@ -364,6 +364,13 @@ $state.go('tab.dash', {}, {reload: true});
 
 
 .controller('reimbHisQuaCtrl',function($scope,Myuser,$state,$ionicPopup,Reimburse_claim){
+  $scope.fi = '-d';
+    $scope.oDate = function(){
+      $scope.fi = '-d';
+    }
+    $scope.oAmount = function(){
+      $scope.fi = '-total_reimbursement';
+    }
   $scope.claims = [];
   $scope.temp = [];
   $scope.currentUser = Myuser.getCachedCurrent();
