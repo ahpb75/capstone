@@ -44,6 +44,7 @@ $state.go('tab.dash', {}, {reload: true});
             $scope.loginResult = Myuser.login({include: 'user', rememberMe: true}, $scope.credentials,
                 function () {
                     $state.go('tab.dash');
+                    $scope.credentials = {};
                 },
                 function (err) {
                     $scope.loginError = err;
@@ -119,7 +120,7 @@ $state.go('tab.dash', {}, {reload: true});
                 template: "Do you want to logout?",
                 scope:$scope,
                 buttons:[{text:'No',type:'button-positive'},{text:'Yes',type:'button-assertive',onTap:function(){$state.go('login');
-        $window.location.reload(true);}}]
+        }}]
             });
     
        };
